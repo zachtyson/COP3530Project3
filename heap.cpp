@@ -19,7 +19,7 @@ struct Node
         calories = -1;
         cookingTime = -1;
     }
-    
+
     Node(string recipeName, int calories, int cookingTime, vector<string> tags, vector<string> ingredients)
     {
         this.recipeName = recipeName;
@@ -78,7 +78,15 @@ class minHeap
         return floor(position/2);
     }
 
-    int leftC
+    int leftC(int position)
+    {
+        return 2*position;
+    }
+
+    int RightC(int position)
+    {
+        return (2*position)+1;
+    }
 
     void swap(int first, int second)
     {
