@@ -12,20 +12,14 @@ struct Node
     int cookingTime;
     vector<string> tags;
     vector<string> ingredients;
-    int leftChild;
-    int rightChild;
-    int parent;
 
     Node()
     {
         recipeName = "";
         calories = -1;
         cookingTime = -1;
-        leftChild = -1; 
-        rightChild = -1;
-        parent = -1;
     }
-
+    
     Node(string recipeName, int calories, int cookingTime, vector<string> tags, vector<string> ingredients)
     {
         this.recipeName = recipeName;
@@ -60,11 +54,32 @@ class minHeap
         }
         Heap[++size] = recipe;
         int lastNode = size;
-        
+
         //code to do
+        while (Heap[lastNode] < Heap[parent(lastNode)])
+        {
+            swap(lastNode, parent(lastNode));
+            lastNode = parent(lastNode);
+        }
     }
 
     private:
+    bool leaf(int position)
+    {
+        if (position > (size/2) && position <= size) //g4g indicated that a leaf could be detected with this math
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    int parent(int position)
+    {
+        return floor(position/2);
+    }
+
+    int leftC
+
     void swap(int first, int second)
     {
         Node temp;
