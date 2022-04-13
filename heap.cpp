@@ -98,6 +98,12 @@ class minHeap
 
     void minHeapify(int position)
     {
-
+        if(leaf(position == false))
+        {
+            if(Heap[position] > Heap[leftC(position)]) || Heap[position] > Heap[RightC(position)])
+            {
+                
+            }
+        }
     }
 }
