@@ -56,7 +56,7 @@ class minHeap
         int lastNode = size;
 
         //code to do
-        while (Heap[lastNode] < Heap[parent(lastNode)])
+        while (Heap[lastNode] < Heap[parent(lastNode)]) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
@@ -96,13 +96,13 @@ class minHeap
         Heap[second] = temp; 
     }
 
-    void minHeapify(int position)
+    void minHeapify(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
     {
         if(leaf(position == false))
         {
             if(Heap[position] > Heap[leftC(position)]) || Heap[position] > Heap[RightC(position)])
             {
-                
+
             }
         }
     }
