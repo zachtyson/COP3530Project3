@@ -52,6 +52,18 @@ class minHeap
         Heap[0] = Integer.MIN_VALUE;
     }
 
+    insert(Node recipe)
+    {
+        if (size >= maxSize)
+        {
+            return;
+        }
+        Heap[++size] = recipe;
+        int lastNode = size;
+        
+        //code to do
+    }
+
     private:
     void swap(int first, int second)
     {
@@ -63,6 +75,6 @@ class minHeap
 
     void minHeapify(int position)
     {
-        
+
     }
 }
