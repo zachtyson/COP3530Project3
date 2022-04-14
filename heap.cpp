@@ -38,7 +38,7 @@ class minHeap
     int cap;
 
     public:
-    minHeap(int cap)
+    minHeap(int cap) //cookingTime
     {
         this.cap = cap;
         this.size = 0;
@@ -56,7 +56,7 @@ class minHeap
         int lastNode = size;
 
         //code to do
-        while (Heap[lastNode] < Heap[parent(lastNode)]) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        while (Heap[lastNode].cookingTime < Heap[parent(lastNode)].cookingTime) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
@@ -100,9 +100,18 @@ class minHeap
     {
         if(leaf(position == false))
         {
-            if(Heap[position] > Heap[leftC(position)]) || Heap[position] > Heap[RightC(position)])
+            if(Heap[position].cookingTime > Heap[leftC(position)].cookingTime || Heap[position].cookingTime > Heap[RightC(position)].cookingTime)
             {
-
+                if(Heap[leftC(position)].cookingTime < Heap[RightC(position)].cookingTime)
+                {
+                    swap(position, leftC(position));
+                    minHeapify(leftC(position));
+                }
+                else
+                {
+                    swap(position, RightC(position));
+                    minHeapify(RightC(position));
+                }
             }
         }
     }
