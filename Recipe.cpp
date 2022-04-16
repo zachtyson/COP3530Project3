@@ -21,8 +21,33 @@ Recipe::Recipe(string curr) {
     nutrients = curr.substr(0,s);
     curr = curr.substr(s+3,curr.length());
     ingredients = curr;
+    setNutrients();
 }
 
 void Recipe::printRecipe() {
     cout<<"Name: "<<name<<"\nID: "<<stoi(ID)<<"\nTime:"<<time<<"\nTags: "<<tags<<"\nNutrients: "<<nutrients <<"\nIngredients: " <<ingredients<<endl;
+}
+
+void Recipe::setNutrients() {
+    auto s = nutrients.find(',');
+    string k = nutrients;
+    nutrientsList.push_back(stof(k.substr(0,s)));
+    k = k.substr(s+1,k.length());
+    s = k.find(',');
+    nutrientsList.push_back(stof(k.substr(0,s)));
+    k = k.substr(s+1,k.length());
+    s = k.find(',');
+    nutrientsList.push_back(stof(k.substr(0,s)));
+    k = k.substr(s+1,k.length());
+    s = k.find(',');
+    nutrientsList.push_back(stof(k.substr(0,s)));
+    k = k.substr(s+1,k.length());
+    s = k.find(',');
+    nutrientsList.push_back(stof(k.substr(0,s)));
+    k = k.substr(s+1,k.length());
+    s = k.find(',');
+    nutrientsList.push_back(stof(k.substr(0,s)));
+    k = k.substr(s+1,k.length());
+    s = k.find(',');
+    nutrientsList.push_back(stof(k.substr(0,s)));
 }
