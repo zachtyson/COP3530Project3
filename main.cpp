@@ -22,13 +22,13 @@ int main() {
         //i++;
     }
 
+    minHeap timeHeap = minHeap(recipes.size());
     
-    /*
     for(int i = 0; i < recipes.size(); i++)
     {
-        insertTime(recipes[i]);
+        timeHeap.insertTime(recipes[i]);
     }
-    */
+    
 //    end = std::chrono::system_clock::now();
 //    std::chrono::duration<double> elapsed_seconds = end - start;
 //    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
