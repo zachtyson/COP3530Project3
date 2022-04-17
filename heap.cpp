@@ -75,7 +75,7 @@ class minHeap
     void swap(int first, int second)
     {
         Recipe* temp;
-        temp  = Heap[second];
+        temp  = Heap[first];
         Heap[first] = Heap[second];
         Heap[second] = temp; 
     }
