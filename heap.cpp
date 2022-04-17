@@ -10,7 +10,7 @@ using namespace std;
 class minHeap
 {
     private:
-    Recipe*[] Heap;
+    Recipe[] Heap;
     int size;
     int cap;
 
@@ -19,7 +19,7 @@ class minHeap
     {
         this.cap = cap;
         this.size = 0;
-        Heap = new Recipe*[this.cap + 1];
+        Heap = new Recipe[this.cap + 1];
         Heap[0] = Integer.MIN_VALUE;
     }
 
