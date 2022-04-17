@@ -28,6 +28,8 @@ int main() {
     {
         timeHeap.insertTime(recipes[i]);
     }
+
+    timeHeap.printTop();
     
 //    end = std::chrono::system_clock::now();
 //    std::chrono::duration<double> elapsed_seconds = end - start;
