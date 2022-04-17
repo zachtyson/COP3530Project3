@@ -10,26 +10,24 @@ using namespace std;
 class minHeap
 {
     private:
-    Recipe[] Heap;
+    vector<Recipe*> Heap;
     int size;
     int cap;
 
     public:
     minHeap(int cap) //cookingTime
     {
-        this.cap = cap;
-        this.size = 0;
-        Heap = new Recipe[this.cap + 1];
-        Heap[0] = Integer.MIN_VALUE;
+        this->cap = cap;
+        this->size = 0;
     }
 
-    insertTime(Recipe* recipe) //cookingTime insert function
+    void insertTime(Recipe* recipe) //cookingTime insert function
     {
-        if (size >= maxSize)
+        if (size >= cap)
         {
             return;
         }
-        Heap[++size] = recipe;
+        Heap.push_back(recipe);
         int lastNode = size;
 
         //code to do
@@ -82,12 +80,12 @@ class minHeap
                 if(Heap[leftC(position)]->getTime() < Heap[RightC(position)]->getTime())
                 {
                     swap(position, leftC(position));
-                    minHeapify(leftC(position));
+                    minHeapifyTime(leftC(position));
                 }
                 else
                 {
                     swap(position, RightC(position));
-                    minHeapify(RightC(position));
+                    minHeapifyTime(RightC(position));
                 }
             }
         }
