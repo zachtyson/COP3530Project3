@@ -30,6 +30,7 @@ class minHeap
         }
         Heap.push_back(recipe);
         int lastNode = size;
+        size++;
 
         while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
         {
