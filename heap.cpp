@@ -2,38 +2,15 @@
 #include <vector>
 #include <string>
 #include <iterator>
+#include "Recipe.h"
 using namespace std;  
 
 //Heap structure and associated functions.
-struct Node
-{
-    string recipeName;
-    int calories;
-    int cookingTime;
-    vector<string> tags;
-    vector<string> ingredients;
-
-    Node()
-    {
-        recipeName = "";
-        calories = -1;
-        cookingTime = -1;
-    }
-
-    Node(string recipeName, int calories, int cookingTime, vector<string> tags, vector<string> ingredients)
-    {
-        this.recipeName = recipeName;
-        this.calories = calories;
-        this.cookingTime = cookingTime;
-        this.tags = tags;
-        this.ingredients = ingredients;
-    }
-}
 
 class minHeap
 {
     private:
-    Node[] Heap;
+    Recipe*[] Heap;
     int size;
     int cap;
 
@@ -42,11 +19,11 @@ class minHeap
     {
         this.cap = cap;
         this.size = 0;
-        Heap = new Node[this.cap + 1];
+        Heap = new Recipe*[this.cap + 1];
         Heap[0] = Integer.MIN_VALUE;
     }
 
-    insert(Node recipe)
+    insertTime(Recipe* recipe) //cookingTime insert function
     {
         if (size >= maxSize)
         {
@@ -56,7 +33,7 @@ class minHeap
         int lastNode = size;
 
         //code to do
-        while (Heap[lastNode].cookingTime < Heap[parent(lastNode)].cookingTime) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
@@ -90,19 +67,19 @@ class minHeap
 
     void swap(int first, int second)
     {
-        Node temp;
+        Recipe* temp;
         temp  = Heap[second];
         Heap[first] = Heap[second];
         Heap[second] = temp; 
     }
 
-    void minHeapify(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
+    void minHeapifyTime(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
     {
         if(leaf(position == false))
         {
-            if(Heap[position].cookingTime > Heap[leftC(position)].cookingTime || Heap[position].cookingTime > Heap[RightC(position)].cookingTime)
+            if(Heap[position]->getTime() > Heap[leftC(position)]->getTime() || Heap[position]->getTime() > Heap[RightC(position)]->getTime())
             {
-                if(Heap[leftC(position)].cookingTime < Heap[RightC(position)].cookingTime)
+                if(Heap[leftC(position)]->getTime() < Heap[RightC(position)]->getTime())
                 {
                     swap(position, leftC(position));
                     minHeapify(leftC(position));
