@@ -13,17 +13,15 @@ class Recipe {
 public:
     Recipe(string curr);
     void printRecipe();
-    void setNutrients();
-    void setIngredients();
+    void setNutrients(string nutrients);
+    void setIngredients(string ingredients);
     void writeToFile(ofstream& s); //Testing purposes only
 private:
     string name;
     string ID;
     string time;
     string tags;
-    string nutrients;
     vector<float> nutrientsList;
-    string ingredients;
     vector<string> ingredientsList;
     int numIngredients;
 };

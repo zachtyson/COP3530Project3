@@ -18,18 +18,17 @@ Recipe::Recipe(string curr) {
     tags = curr.substr(0,s);
     curr = curr.substr(s+5, curr.length());
     s = curr.find(']');
-    nutrients = curr.substr(0,s);
+    string nutrients = curr.substr(0,s);
     curr = curr.substr(s+3,curr.length());
-    ingredients = curr;
-    setNutrients();
-    setIngredients();
+    setNutrients(nutrients);
+    setIngredients(curr);
 }
 
 void Recipe::printRecipe() {
-    cout<<"Name: "<<name<<"\nID: "<<stoi(ID)<<"\nTime:"<<time<<"\nTags: "<<tags<<"\nNutrients: "<<nutrients <<"\nIngredients: " <<ingredients<<endl;
+    //cout<<"Name: "<<name<<"\nID: "<<stoi(ID)<<"\nTime:"<<time<<"\nTags: "<<tags<<"\nNutrients: "<<nutrients <<"\nIngredients: " <<ingredients<<endl;
 }
 
-void Recipe::setNutrients() {
+void Recipe::setNutrients(string nutrients) {
     auto s = nutrients.find(',');
     string k = nutrients;
     nutrientsList.push_back(stof(k.substr(0,s)));
@@ -53,7 +52,7 @@ void Recipe::setNutrients() {
     nutrientsList.push_back(stof(k.substr(0,s)));
 }
 
-void Recipe::setIngredients() {
+void Recipe::setIngredients(string ingredients) {
     string k = ingredients;
     string s;
     bool state = false;
