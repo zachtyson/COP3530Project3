@@ -38,6 +38,23 @@ class minHeap
             lastNode = parent(lastNode);
         }
     }
+
+    void insertCal(Recipe* recipe) //calories insert function
+    {
+        if (size >= cap)
+        {
+            return;
+        }
+        Heap.push_back(recipe);
+        int lastNode = size;
+        size++;
+
+        while (Heap[lastNode]->getNutrients()[0] < Heap[parent(lastNode)]->getNutrients()[0]) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        {
+            swap(lastNode, parent(lastNode));
+            lastNode = parent(lastNode);
+        }
+    }
     
     void printTop() //missing rest of info
     {
@@ -88,6 +105,26 @@ class minHeap
             if(Heap[position]->getTime() > Heap[leftC(position)]->getTime() || Heap[position]->getTime() > Heap[RightC(position)]->getTime())
             {
                 if(Heap[leftC(position)]->getTime() < Heap[RightC(position)]->getTime())
+                {
+                    swap(position, leftC(position));
+                    minHeapifyTime(leftC(position));
+                }
+                else
+                {
+                    swap(position, RightC(position));
+                    minHeapifyTime(RightC(position));
+                }
+            }
+        }
+    }
+
+    void minHeapifyCal(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
+    {
+        if(leaf(position == false))
+        {
+            if(Heap[position]->getNutrients()[0] > Heap[leftC(position)]->getNutrients()[0] || Heap[position]->getNutrients()[0] > Heap[RightC(position)]->getNutrients()[0])
+            {
+                if(Heap[leftC(position)]->getNutrients()[0] < Heap[RightC(position)]->getNutrients()[0])
                 {
                     swap(position, leftC(position));
                     minHeapifyTime(leftC(position));
