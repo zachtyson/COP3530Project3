@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <iterator>
+#include <math.h>
 #include "Recipe.h"
 using namespace std;  
 
@@ -90,4 +91,4 @@ class minHeap
             }
         }
     }
-}
+};
