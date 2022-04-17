@@ -37,6 +37,11 @@ class minHeap
             lastNode = parent(lastNode);
         }
     }
+    
+    void printTop() //missing rest of info
+    {
+        cout << "Recipe: " << Heap[0].getName() << "\n" << "Time to make: " << Heap[0].getTime() << "\n" ;
+    }
 
     private:
     bool leaf(int position)
