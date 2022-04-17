@@ -56,7 +56,8 @@ int main() {
             return 0;
         }
     }
-    else if(option == "1")
+    
+    if(option == "1")
     {
         minHeap Heap = minHeap(recipes.size());
         for(int i = 0; i < recipes.size(); i++)
