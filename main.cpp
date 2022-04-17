@@ -50,13 +50,13 @@ int main() {
     }
     else
     {
-        if(option != 1 || option != 2)
+        if(option != "1" || option != "2")
         {
             cout << "Oh oh you input an unrecoginzable value, please re-run Cooking by the Book!" << endl;
             return 0;
         }
     }
-    else if(option == 1)
+    else if(option == "1")
     {
         minHeap Heap = minHeap(recipes.size());
         for(int i = 0; i < recipes.size(); i++)
