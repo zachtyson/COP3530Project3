@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Recipe.h"
+#include "heap.cpp"
 #include <vector>
 #include <fstream>
 #include <chrono>
@@ -18,6 +19,11 @@ int main() {
         recipes.push_back(new Recipe(curr));
         //recipes[i]->writeToFile(test2);
         //i++;
+    }
+
+    for(int i = 0; i < recipes.size(); i++)
+    {
+        insertTime(recipes[i]);
     }
 //    end = std::chrono::system_clock::now();
 //    std::chrono::duration<double> elapsed_seconds = end - start;
