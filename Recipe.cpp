@@ -9,19 +9,20 @@ Recipe::Recipe(string curr) {
     name = curr.substr(0,s);
     curr = curr.substr(s+1,curr.length());
     s = curr.find(',');
-    ID = curr.substr(0,s);
+    ID = stoi(curr.substr(0,s));
     curr = curr.substr(s+1,curr.length());
     s = curr.find(',');
-    time = curr.substr(0,s);
+    time = stoi(curr.substr(0,s));
     curr = curr.substr(s+3, curr.length());
     s = curr.find(']');
-    tags = curr.substr(0,s);
+    string tags = curr.substr(0,s);
     curr = curr.substr(s+5, curr.length());
     s = curr.find(']');
     string nutrients = curr.substr(0,s);
     curr = curr.substr(s+3,curr.length());
     setNutrients(nutrients);
     setIngredients(curr);
+    setTags(tags);
 }
 
 void Recipe::printRecipe() {
@@ -70,14 +71,18 @@ void Recipe::setIngredients(string ingredients) {
         }
     }
     numIngredients = ingredientsList.size();
-
 }
 
 void Recipe::writeToFile(ofstream& s) {
     s<<"Name: "<<name<<endl;
     s<<"ID: "<<ID<<endl;
     s<<"Time: "<<time<<endl;
-    s<<"Tags: "<<tags<<endl;
+    s<<"#Tags: "<<numTags<<endl;
+    s<<"Tags: ";
+    for(auto & i : tagsList) {
+        s<<" '"<<i<<"'";
+    }
+    s<<endl;
     s<<"Nutrients: '"<<nutrientsList[0]<<" Calories' '"<<nutrientsList[1]<<"% Sugar' '";
     s<<nutrientsList[2]<<"% Total Fat' '"<<nutrientsList[3]<<"% Sodium' '"<<nutrientsList[4];
     s<<"% Protein' '"<<nutrientsList[5]<<"% Saturated Fat' '"<<nutrientsList[6]<<"% Carbohydrates'"<<endl;
@@ -88,4 +93,48 @@ void Recipe::writeToFile(ofstream& s) {
     }
     s<<endl;
     s<<endl;
+}
+
+string Recipe::getName() const{
+    return name;
+}
+
+int Recipe::getID() const {
+    return ID;
+}
+
+int Recipe::getTime() const {
+    return time;
+}
+
+vector<string> Recipe::getTags() const {
+    return tagsList;
+}
+
+vector<float> Recipe::getNutrients() const {
+    return nutrientsList;
+}
+
+vector<string> Recipe::getIngredients() const {
+    return ingredientsList;
+}
+
+void Recipe::setTags(string tags) {
+    string k = tags;
+    string s;
+    bool state = false;
+    for(char tag : tags) {
+        if(tag == '\'') {
+            if(state) {
+                tagsList.push_back(s);
+                s = "";
+            }
+            state = !state;
+            continue;
+        }
+        if(state) {
+            s.push_back(tag);
+        }
+    }
+    numTags = tagsList.size();
 }

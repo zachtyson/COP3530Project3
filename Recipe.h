@@ -15,15 +15,23 @@ public:
     void printRecipe();
     void setNutrients(string nutrients);
     void setIngredients(string ingredients);
+    void setTags(string tags);
     void writeToFile(ofstream& s); //Testing purposes only
+    string getName() const;
+    int getID() const;
+    int getTime() const ;
+    vector<string> getTags() const;
+    vector<float> getNutrients() const;
+    vector<string> getIngredients()const;
 private:
     string name;
-    string ID;
-    string time;
-    string tags;
+    int ID;
+    int time;
+    vector<string> tagsList;
     vector<float> nutrientsList;
     vector<string> ingredientsList;
     int numIngredients;
+    int numTags;
 };
 //NutrientsList: Calories,Sugar (%DV), Total Fat(%DV), Sodium (%DV)
 //Protein (%DV), Saturated Fat (%DV), Carbohydrates (%DV)
