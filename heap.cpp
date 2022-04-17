@@ -7,7 +7,6 @@
 using namespace std;  
 
 //Heap structure and associated functions.
-
 class minHeap
 {
     private:
@@ -31,7 +30,6 @@ class minHeap
         Heap.push_back(recipe);
         int lastNode = size;
 
-        //code to do
         while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
         {
             swap(lastNode, parent(lastNode));
