@@ -14,6 +14,8 @@ public:
     Recipe(string curr);
     void printRecipe();
     void setNutrients();
+    void setIngredients();
+    void writeToFile(ofstream& s); //Testing purposes only
 private:
     string name;
     string ID;
@@ -22,8 +24,10 @@ private:
     string nutrients;
     vector<float> nutrientsList;
     string ingredients;
+    vector<string> ingredientsList;
+    int numIngredients;
 };
-//NutrientsList: Calories, Total Fat(%DV), Sodium (%DV)
+//NutrientsList: Calories,Sugar (%DV), Total Fat(%DV), Sodium (%DV)
 //Protein (%DV), Saturated Fat (%DV), Carbohydrates (%DV)
 
 #endif //UNTITLED4_RECIPE_H
