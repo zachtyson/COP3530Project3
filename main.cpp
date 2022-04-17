@@ -61,7 +61,7 @@ int main() {
         minHeap Heap = minHeap(recipes.size());
         for(int i = 0; i < recipes.size(); i++)
         {
-            timeHeap.insertTime(recipes[i]);
+            Heap.insertTime(recipes[i]);
         }
     }
     else
@@ -69,8 +69,7 @@ int main() {
         minHeap Heap = minHeap(recipes.size());
         for(int i = 0; i < recipes.size(); i++)
         {
-            timeHeap.insertTime(recipes[i]);
-            caloriesHeap.insertCal(recipes[i]);
+            Heap.insertCal(recipes[i]);
         }
     }
 
