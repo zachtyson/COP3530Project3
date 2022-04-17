@@ -57,8 +57,8 @@ void Recipe::setIngredients() {
     string k = ingredients;
     string s;
     bool state = false;
-    for(int i = 0; i < ingredients.length(); i++) {
-        if(ingredients[i] == '\'') {
+    for(char ingredient : ingredients) {
+        if(ingredient == '\'') {
             if(state) {
                 ingredientsList.push_back(s);
                 s = "";
@@ -67,7 +67,7 @@ void Recipe::setIngredients() {
             continue;
         }
         if(state) {
-            s.push_back(ingredients[i]);
+            s.push_back(ingredient);
         }
     }
     numIngredients = ingredientsList.size();
@@ -84,8 +84,8 @@ void Recipe::writeToFile(ofstream& s) {
     s<<"% Protein' '"<<nutrientsList[5]<<"% Saturated Fat' '"<<nutrientsList[6]<<"% Carbohydrates'"<<endl;
     s<<"# Ingredients: "<<numIngredients<<endl;
     s<<"Ingredients:";
-    for(int i = 0; i < ingredientsList.size(); i++) {
-        s<<" '"<<ingredientsList[i]<<"'";
+    for(auto & i : ingredientsList) {
+        s<<" '"<<i<<"'";
     }
     s<<endl;
     s<<endl;
