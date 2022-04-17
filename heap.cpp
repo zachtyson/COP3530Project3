@@ -41,7 +41,11 @@ class minHeap
     void printTop() //missing rest of info
     {
         cout << "Recipe: " << Heap[0].getName() << "\n" << "Time to make: " << Heap[0].getTime() << "\n" ;
+        cout << "Recipe: " << Heap[1].getName() << "\n" << "Time to make: " << Heap[1].getTime() << "\n" ;
+        cout << "Recipe: " << Heap[2].getName() << "\n" << "Time to make: " << Heap[2].getTime() << "\n" ;
     }
+
+
 
     private:
     bool leaf(int position)
