@@ -3,4 +3,4 @@ project(untitled4)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(untitled4 main.cpp Recipe.cpp Recipe.h)
+add_executable(untitled4 main.cpp Recipe.cpp Recipe.h BTree.cpp BTree.h NodeB.cpp NodeB.h)

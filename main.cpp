@@ -1,4 +1,5 @@
 #include <iostream>
+#include "BTree.h"
 #include "Recipe.h"
 #include "heap.cpp"
 #include <vector>
