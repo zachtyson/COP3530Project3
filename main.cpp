@@ -50,8 +50,10 @@ int main() {
     minHeap Heap = minHeap(recipes.size());
     BTree<pair<float, Recipe*>> BTree;
     time_point<system_clock> start, end;
+    string calTimeChoice;
     if(option == "1")
     {
+        calTimeChoice = "minutes";
         //minHeap Heap = minHeap(recipes.size());
         start = system_clock::now();
         for(int i = 0; i < recipes.size(); i++)
@@ -74,6 +76,7 @@ int main() {
     else
     {
         //minHeap Heap = minHeap(recipes.size());
+        calTimeChoice = "calories";
         start = system_clock::now();
         for(int i = 0; i < recipes.size(); i++)
         {
@@ -90,6 +93,105 @@ int main() {
         end = system_clock::now();
         ms = duration_cast<milliseconds>(end-start);
         cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+    }
+    int order;
+    string userInput;
+    float userOption;
+    while (true) {
+        cout<<"Would you like to sort ascending or descending?"<<endl;
+        cout<<"1: Ascending"<<endl;
+        cout<<"2: Descending"<<endl;
+        cout<<"3: Exit"<<endl;
+        cin>>userInput;
+        try {
+           order = stoi(userInput);
+           if(order == 1 || order == 2 || order == 3) {
+               if(order == 3) {
+                   cout<<"Well, I suppose this is Goodbye"<<endl;
+                   return 0;
+               }
+               if(order == 1) {
+                   cout<<"Sorting ascending"<<endl;
+               }else {
+                   cout<<"Sorting descending"<<endl;
+               }
+               break;
+           } else{
+               throw std::invalid_argument("Invalid Command");
+           }
+        } catch (exception& e){
+            cout<<"Unrecognized Command"<<endl;
+        }
+    }
+    cout<<"What is the ";
+    if(order == 1) {
+        cout<<"minimum";
+    } else {
+        cout<<"maximum";
+    }
+    cout<< " number of "<<calTimeChoice<<"?"<<endl;
+    cin>>userInput;
+    try {
+        userOption = stof(userInput);
+    } catch (exception& e) {
+        cout<<"Unrecognized value, defaulting to ";
+        if(order == 1) {
+            cout<<"minimum ";
+        } else {
+            cout<<"maximum ";
+        }
+        userOption = -1;
+        cout<<calTimeChoice<<endl;
+    }
+    if(order == 1) {
+        queue<pair<float, Recipe*>> q;
+        BTree.inorder(q);
+        if(userOption != -1) {
+            while(true) {
+                if(q.front().first >= userOption) {
+                    break;
+                }
+                q.pop();
+            }
+        }
+        while(!q.empty()) {
+            q.front().second->printRecipe();
+            q.pop();
+            cout<<"Would you like to view another recipe?"<<endl;
+            cout<<"Y: Yes"<<endl;
+            cout<<"N: No"<<endl;
+            string viewAnother;
+            cin>>viewAnother;
+            if(viewAnother != "Yes") {
+                cout<<"Okay, no more recipes"<<endl;
+                break;
+            }
+        }
+    } else {
+        stack<pair<float, Recipe*>> s;
+        BTree.revorder(s);
+        if(userOption != -1) {
+            while(true) {
+                if(s.top().first <= userOption) {
+                    break;
+                }
+                s.pop();
+            }
+        }
+        while(!s.empty()) {
+            s.top().second->printRecipe();
+            s.pop();
+            cout<<endl;
+            cout<<"Would you like to view another recipe?"<<endl;
+            cout<<"1: Yes";
+            cout<<"\t2: No"<<endl;
+            string viewAnother;
+            cin>>viewAnother;
+            if(viewAnother != "1") {
+                cout<<"Okay, no more recipes"<<endl;
+                break;
+            }
+        }
     }
     //Heap.printTop();
     //BTree.inorder();

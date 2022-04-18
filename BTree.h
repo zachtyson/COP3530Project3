@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <queue>
 //2-3-4 tree
 
 using namespace std;
@@ -20,12 +22,14 @@ class BTree
         explicit NodeB(bool l);
         void insertToNode(type val);
         void balanceTree(int index, NodeB* nodeToBalance);
-        void inorderTraversal();
+        void inorderTraversal(queue<type>& q);
+        void revorderTraversal(stack<type>& s);
         NodeB* find(type val);
     };
 public:
     int totalKeys = 0;
-    void inorder(); // Inorder traversal
+    void inorder(queue<type>& q); // Inorder traversal
+    void revorder(stack<type>& s); // Reverse traversal
     NodeB* search(type val); //Search for certain value (doesn't handle duplicates)
     void insert(type val); //Insert value into tree
     NodeB* root = nullptr; //Root Node Pointer
@@ -66,17 +70,17 @@ BTree<type>::NodeB::NodeB(bool l) {
 }
 
 template<typename type>
-void BTree<type>::NodeB::inorderTraversal() {
+void BTree<type>::NodeB::inorderTraversal(queue<type>& q) {
 
     for (int i = 0; i < keyIndex; i++)
     {
         if (!isLeaf) {
-            nodeChildren[i]->inorderTraversal();
+            nodeChildren[i]->inorderTraversal(q);
         }
-        nodeKeys[i].second->printRecipe();
+        q.template emplace(nodeKeys[i]);
     }
     if (!isLeaf) {
-        nodeChildren[keyIndex]->inorderTraversal();
+        nodeChildren[keyIndex]->inorderTraversal(q);
     }
 }
 
@@ -122,6 +126,20 @@ void BTree<type>::NodeB::insertToNode(type val) {
     }
 }
 
+template<typename type>
+void BTree<type>::NodeB::revorderTraversal(stack<type> &s) {
+    for (int i = 0; i < keyIndex; i++)
+    {
+        if (!isLeaf)
+            nodeChildren[i]->revorderTraversal(s);
+        s.push(nodeKeys[i]);
+        //cout << " " << nodeKeys[i];
+    }
+
+    if (!isLeaf ) {
+        nodeChildren[keyIndex]->revorderTraversal(s);
+    }
+}
 
 
 template<typename type>
@@ -158,10 +176,19 @@ typename BTree<type>::NodeB* BTree<type>::search(type val) {
 }
 
 template<typename type>
-void BTree<type>::inorder() {
-    if (root != nullptr) {
-        root->inorderTraversal();
+void BTree<type>::inorder(queue<type>& q) {
+    if (root == nullptr) {
+        return;
     }
+    root->inorderTraversal(q);
+}
+
+template<typename type>
+void BTree<type>::revorder(stack<type> &s) {
+    if (root == nullptr) {
+        return;
+    }
+    root->revorderTraversal(s);
 }
 
 #endif //UNTITLED4_BTREE_H
