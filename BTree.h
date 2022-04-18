@@ -30,7 +30,7 @@ public:
     int totalKeys = 0;
     void inorder(queue<type>& q); // Inorder traversal
     void revorder(stack<type>& s); // Reverse traversal
-    NodeB* search(type val); //Search for certain value (doesn't handle duplicates)
+    NodeB* search(type val); //Search for certain value (doesn't handle duplicates, but the data set shouldn't have any duplicate names)
     void insert(type val); //Insert value into tree
     NodeB* root = nullptr; //Root Node Pointer
 };
