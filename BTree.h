@@ -3,20 +3,166 @@
 #ifndef UNTITLED4_BTREE_H
 #define UNTITLED4_BTREE_H
 
+#include <iostream>
+#include <vector>
+//2-3-4 tree
 
-
-#include "NodeB.h"
-//2-3 Tree
-class BTree {
-private:
-    NodeB* root;
-    int L; //At most L keys
-    int N; //At most N children
+using namespace std;
+template <typename type>
+class BTree
+{;
+    struct NodeB
+    {
+        vector<type> nodeKeys;
+        vector<NodeB*> nodeChildren;
+        int keyIndex;
+        bool isLeaf;
+        explicit NodeB(bool l);
+        void insertToNode(type val);
+        void balanceTree(int index, NodeB* nodeToBalance);
+        void inorderTraversal();
+        NodeB* find(type val);
+    };
 public:
-    BTree();
-    NodeB* search(string name);
-    void insert(Recipe* recipe);
+    void inorder(); // Inorder traversal
+    NodeB* search(type val); //Search for certain value (doesn't handle duplicates)
+    void insert(type val); //Insert value into tree
+    NodeB* root = nullptr; //Root Node Pointer
 };
 
+template<typename type>
+void BTree<type>::NodeB::balanceTree(int index, BTree::NodeB *nodeToBalance) {
+    auto *newNode = new NodeB(nodeToBalance->isLeaf);
+    newNode->keyIndex = 1;
+    for (int i = 0; i < 1; i++) {
+        newNode->nodeKeys[i] = nodeToBalance->nodeKeys[i + 2];
+    }
+    if (!nodeToBalance->isLeaf)
+    {
+        for (int i = 0; i < 2; i++) {
+            newNode->nodeChildren[i] = nodeToBalance->nodeChildren[i + 2];
+        }
+    }
+
+    nodeToBalance->keyIndex = 1;
+    for (int i = keyIndex; i >= index + 1; i--){
+        nodeChildren[i+1] = nodeChildren[i];
+    }
+    nodeChildren[index + 1] = newNode;
+    for (int i = keyIndex-1; i >= index; i--) {
+        nodeKeys[i + 1] = nodeKeys[i];
+    }
+    nodeKeys[index] = nodeToBalance->nodeKeys[1];
+    keyIndex = keyIndex + 1;
+}
+
+template<typename type>
+BTree<type>::NodeB::NodeB(bool l) {
+    isLeaf = l;
+    nodeKeys.resize(3);
+    nodeChildren.resize(4);
+    keyIndex = 0;
+}
+
+template<typename type>
+void BTree<type>::NodeB::inorderTraversal() {
+
+    for (int i = 0; i < keyIndex; i++)
+    {
+        if (!isLeaf) {
+            nodeChildren[i]->inorderTraversal();
+        }
+    }
+    if (!isLeaf) {
+        nodeChildren[keyIndex]->inorderTraversal();
+    }
+}
+
+template<typename type>
+typename BTree<type>::NodeB *BTree<type>::NodeB::find(type val) {
+    int index = 0;
+    while (index < keyIndex && val > nodeKeys[index]) {
+        index++;
+    }
+    if (nodeKeys[index] == val) {
+        return this;
+    }
+    if (isLeaf) {
+        return nullptr;
+    }
+    return nodeChildren[index]->find(val);
+}
+
+template<typename type>
+void BTree<type>::NodeB::insertToNode(type val) {
+    int middleIndex = keyIndex-1;
+    if (isLeaf)
+    {
+        while (middleIndex >= 0 && nodeKeys[middleIndex] > val) {
+            nodeKeys[middleIndex+1] = nodeKeys[middleIndex];
+            middleIndex--;
+        }
+        nodeKeys[middleIndex+1] = val;
+        keyIndex = keyIndex+1;
+    }
+    else {
+        while (middleIndex >= 0 && nodeKeys[middleIndex] > val) {
+            middleIndex--;
+        }
+        if (nodeChildren[middleIndex+1]->keyIndex == 3)
+        {
+            balanceTree(middleIndex+1, nodeChildren[middleIndex+1]);
+            if (nodeKeys[middleIndex+1] < val) {
+                middleIndex++;
+            }
+        }
+        nodeChildren[middleIndex+1]->insertToNode(val);
+    }
+}
+
+
+
+template<typename type>
+void BTree<type>::insert(type val) {
+    if (root == nullptr)
+    {
+        root = new NodeB(true);
+        root->nodeKeys[0] = val;
+        root->keyIndex = 1;
+    }
+    else
+    {
+        if (root->keyIndex == 3)
+        {
+            auto* newRoot = new NodeB(false);
+            newRoot->nodeChildren[0] = root;
+            newRoot->balanceTree(0, root);
+            if (newRoot->nodeKeys[0] < val) {
+                newRoot->nodeChildren[1]->insertToNode(val);
+            } else {
+                newRoot->nodeChildren[0]->insertToNode(val);
+            }
+            root = newRoot;
+        }
+        else {
+            root->insertToNode(val);
+        }
+    }
+}
+
+template<typename type>
+typename BTree<type>::NodeB* BTree<type>::search(type val) {
+    if(root == nullptr) {
+        return nullptr;
+    }
+    return root->find(val);
+}
+
+template<typename type>
+void BTree<type>::inorder() {
+    if (root != nullptr) {
+        root->inorderTraversal();
+    }
+}
 
 #endif //UNTITLED4_BTREE_H
