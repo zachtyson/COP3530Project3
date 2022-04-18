@@ -6,6 +6,7 @@
 #include <fstream>
 #include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 bool number(const string& string)
 {
@@ -47,22 +48,47 @@ int main() {
         }
     }
     minHeap Heap = minHeap(recipes.size());
+    BTree<pair<int, Recipe*>> BTree;
+    time_point<system_clock> start, end;
     if(option == "1")
     {
         //minHeap Heap = minHeap(recipes.size());
+        start = system_clock::now();
         for(int i = 0; i < recipes.size(); i++)
         {
             Heap.insertTime(recipes[i]);
         }
+        end = system_clock::now();
+        auto ms = duration_cast<milliseconds>(end-start);
+        cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+
+        start = system_clock::now();
+        for(auto & recipe : recipes) {
+            BTree.insert(make_pair(recipe->getTime(),recipe));
+        }
+        end = system_clock::now();
+        ms = duration_cast<milliseconds>(end-start);
+        cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+
     }
     else
     {
         //minHeap Heap = minHeap(recipes.size());
+        start = system_clock::now();
         for(int i = 0; i < recipes.size(); i++)
         {
             Heap.insertCal(recipes[i]);
         }
-    }
+        end = system_clock::now();
+        auto ms = duration_cast<milliseconds>(end-start);
+        cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
 
-    Heap.printTop();
+        start = system_clock::now();
+        for(auto & recipe : recipes) {
+            BTree.insert(make_pair(recipe->getNutrients()[0],recipe));
+        }
+        end = system_clock::now();
+        ms = duration_cast<milliseconds>(end-start);
+        cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+    }
 }

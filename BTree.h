@@ -24,6 +24,7 @@ class BTree
         NodeB* find(type val);
     };
 public:
+    int totalKeys = 0;
     void inorder(); // Inorder traversal
     NodeB* search(type val); //Search for certain value (doesn't handle duplicates)
     void insert(type val); //Insert value into tree
@@ -125,6 +126,7 @@ void BTree<type>::NodeB::insertToNode(type val) {
 
 template<typename type>
 void BTree<type>::insert(type val) {
+    totalKeys++;
     if (!root)
     {
         root = new NodeB(true);
