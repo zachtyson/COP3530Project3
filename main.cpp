@@ -48,7 +48,7 @@ int main() {
         }
     }
     minHeap Heap = minHeap(recipes.size());
-    BTree<pair<int, Recipe*>> BTree;
+    BTree<pair<float, Recipe*>> BTree;
     time_point<system_clock> start, end;
     if(option == "1")
     {
@@ -91,4 +91,6 @@ int main() {
         ms = duration_cast<milliseconds>(end-start);
         cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
     }
+    //Heap.printTop();
+    //BTree.inorder();
 }

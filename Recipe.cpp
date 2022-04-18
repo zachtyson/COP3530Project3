@@ -26,7 +26,25 @@ Recipe::Recipe(string curr) {
 }
 
 void Recipe::printRecipe() {
-    //cout<<"Name: "<<name<<"\nID: "<<stoi(ID)<<"\nTime:"<<time<<"\nTags: "<<tags<<"\nNutrients: "<<nutrients <<"\nIngredients: " <<ingredients<<endl;
+    //NutrientsList: Calories,Sugar (%DV), Total Fat(%DV), Sodium (%DV)
+//Protein (%DV), Saturated Fat (%DV), Carbohydrates (%DV)
+    cout<<"Name: "<<name<<"\n"<<"Time:"<<time<<" minutes"<<"\nTags:";
+    for(auto & i : tagsList) {
+        cout<<" "<<i;
+    }
+    cout<<"\nNutrients: \n";
+    cout<<"\tCalories: "<<nutrientsList[0]<<" kcal"<<endl;
+    cout<<"\tSugar: "<<nutrientsList[1]<<"% DV"<<endl;
+    cout<<"\tTotal Fat: "<<nutrientsList[2]<<"% DV"<<endl;
+    cout<<"\tSodium: "<<nutrientsList[3]<<"% DV"<<endl;
+    cout<<"\tProtein: "<<nutrientsList[4]<<"% DV"<<endl;
+    cout<<"\tSaturated Fat: "<<nutrientsList[5]<<"% DV"<<endl;
+    cout<<"\tCarbohydrates: "<<nutrientsList[6]<<"% DV"<<endl;
+    cout<<"\nIngredients:"<<endl;
+    for(auto & i : ingredientsList) {
+        cout<<" "<<i<<",";
+    }
+    cout<<endl;
 }
 
 void Recipe::setNutrients(string nutrients) {

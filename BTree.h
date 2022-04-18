@@ -73,7 +73,7 @@ void BTree<type>::NodeB::inorderTraversal() {
         if (!isLeaf) {
             nodeChildren[i]->inorderTraversal();
         }
-        //Do something here
+        nodeKeys[i].second->printRecipe();
     }
     if (!isLeaf) {
         nodeChildren[keyIndex]->inorderTraversal();
