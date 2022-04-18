@@ -63,8 +63,6 @@ class minHeap
         cout << "Recipe: " << Heap[2]->getName() << "\n" << "Time to make: " << Heap[2]->getTime() << "\n" << "Calories: " << Heap[2]->getNutrients()[2] << "\n" ;
     }
 
-
-
     private:
     bool leaf(int position)
     {
