@@ -64,6 +64,20 @@ class minHeap
         Heap[0]->printRecipe();
     }
 
+    void removeTime() { // Could very well be wrong. Assuming position is meant to be root.
+        Heap[0] = Heap[size - 1];
+        Heap.pop_back();
+        minHeapifyTime(0);
+        size--;
+    }
+
+    void removeCal() {
+        Heap[0] = Heap[size - 1];
+        Heap.pop_back();
+        minHeapifyCal(0);
+        size--;
+    }
+
     private:
     bool leaf(int position)
     {
