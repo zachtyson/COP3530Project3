@@ -23,6 +23,10 @@ public:
     vector<string> getTags() const;
     vector<float> getNutrients() const;
     vector<string> getIngredients()const;
+    friend bool operator==(const Recipe& recipe1, const Recipe& recipe2);
+    friend bool operator!=(const Recipe& recipe1, const Recipe& recipe2);
+    friend bool operator<(const Recipe& recipe1, const Recipe& recipe2);
+    friend bool operator>(const Recipe& recipe1, const Recipe& recipe2);
 private:
     string name;
     int ID;

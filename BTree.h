@@ -72,6 +72,7 @@ void BTree<type>::NodeB::inorderTraversal() {
         if (!isLeaf) {
             nodeChildren[i]->inorderTraversal();
         }
+        //Do something here
     }
     if (!isLeaf) {
         nodeChildren[keyIndex]->inorderTraversal();
@@ -124,29 +125,25 @@ void BTree<type>::NodeB::insertToNode(type val) {
 
 template<typename type>
 void BTree<type>::insert(type val) {
-    if (root == nullptr)
+    if (!root)
     {
         root = new NodeB(true);
         root->nodeKeys[0] = val;
         root->keyIndex = 1;
+        return;
     }
-    else
-    {
-        if (root->keyIndex == 3)
-        {
-            auto* newRoot = new NodeB(false);
-            newRoot->nodeChildren[0] = root;
-            newRoot->balanceTree(0, root);
+    if (root->keyIndex == 3) {
+        auto* newRoot = new NodeB(false);
+        newRoot->nodeChildren[0] = root;
+        newRoot->balanceTree(0, root);
             if (newRoot->nodeKeys[0] < val) {
                 newRoot->nodeChildren[1]->insertToNode(val);
             } else {
                 newRoot->nodeChildren[0]->insertToNode(val);
             }
-            root = newRoot;
-        }
-        else {
-            root->insertToNode(val);
-        }
+        root = newRoot;
+    } else {
+        root->insertToNode(val);
     }
 }
 

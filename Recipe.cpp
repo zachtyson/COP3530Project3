@@ -138,3 +138,47 @@ void Recipe::setTags(string tags) {
     }
     numTags = tagsList.size();
 }
+
+bool operator==(const Recipe &recipe1, const Recipe &recipe2) {
+    if(recipe1.name != recipe2.name) {
+        return false;
+    }
+    if(recipe1.nutrientsList != recipe2.nutrientsList) {
+        return false;
+    }
+    if(recipe1.tagsList != recipe2.tagsList) {
+        return false;
+    }
+    if(recipe1.time != recipe2.time) {
+        return false;
+    }
+    return true;
+    //Comparing two recipes, I know they may have different ingredients but this is intended for comparison when
+    //inserting elements into B-Tree, and this function may or may not ever be used
+}
+
+bool operator!=(const Recipe &recipe1, const Recipe &recipe2) {
+    if(recipe1.name != recipe2.name) {
+        return true;
+    }
+    if(recipe1.nutrientsList != recipe2.nutrientsList) {
+        return true;
+    }
+    if(recipe1.tagsList != recipe2.tagsList) {
+        return true;
+    }
+    if(recipe1.time != recipe2.time) {
+        return true;
+    }
+    return false;
+}
+
+bool operator<(const Recipe &recipe1, const Recipe &recipe2) {
+    return recipe1.name < recipe2.name;
+    //Compares the string values of each name, might be used by B Tree
+}
+
+bool operator>(const Recipe &recipe1, const Recipe &recipe2) {
+    return recipe1.name > recipe2.name;
+    //All four of these operator overloaded functions might be unused, added just in case
+}
