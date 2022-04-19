@@ -94,28 +94,6 @@ void Recipe::setIngredients(string ingredients) {
     numIngredients = ingredientsList.size();
 }
 
-void Recipe::writeToFile(ofstream& s) {
-    s<<"Name: "<<name<<endl;
-    s<<"ID: "<<ID<<endl;
-    s<<"Time: "<<time<<endl;
-    s<<"#Tags: "<<numTags<<endl;
-    s<<"Tags: ";
-    for(auto & i : tagsList) {
-        s<<" '"<<i<<"'";
-    }
-    s<<endl;
-    s<<"Nutrients: '"<<nutrientsList[0]<<" Calories' '"<<nutrientsList[1]<<"% Sugar' '";
-    s<<nutrientsList[2]<<"% Total Fat' '"<<nutrientsList[3]<<"% Sodium' '"<<nutrientsList[4];
-    s<<"% Protein' '"<<nutrientsList[5]<<"% Saturated Fat' '"<<nutrientsList[6]<<"% Carbohydrates'"<<endl;
-    s<<"# Ingredients: "<<numIngredients<<endl;
-    s<<"Ingredients:";
-    for(auto & i : ingredientsList) {
-        s<<" '"<<i<<"'";
-    }
-    s<<endl;
-    s<<endl;
-}
-
 string Recipe::getName() const{
     return name;
 }
