@@ -31,8 +31,8 @@ class minHeap
     vector<Recipe*> searchName(string name) { // Added signature for search by name to heap
         for (int i = 0; i < size; i++) {
             if (Heap[i]->getName().find(name) != string::npos) {
-                littleGuy.push_back(recipe);
-                minHeapifyName(littleGuy.size()-1);
+                littleGuy.push_back(Heap[i]);
+                minHeapifyName(0);
             }
         }
         sizeLG = 0;
