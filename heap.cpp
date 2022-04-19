@@ -13,7 +13,7 @@ class minHeap
 {
     private:
     vector<Recipe*> Heap;
-    int size;
+    int size = 0;
     int cap;
 
     public:
@@ -22,7 +22,9 @@ class minHeap
         this->cap = cap;
         this->size = 0;
     }
-
+    int getSize() {
+        return size;
+    }
     void searchName(string name) { // Added signature for search by name to heap
 
     }
