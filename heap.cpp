@@ -69,7 +69,7 @@ class minHeap
         }
     }
     
-    void printTop() //missing rest of info
+    void printTop()
     {
 //        cout << "Recipe: " << Heap[0]->getName() << "\n" << "Time to make: " << Heap[0]->getTime() << "\n" << "Calories: " << Heap[0]->getNutrients()[0] << "\n" ;
 //        cout << "Recipe: " << Heap[1]->getName() << "\n" << "Time to make: " << Heap[1]->getTime() << "\n" << "Calories: " << Heap[1]->getNutrients()[1] << "\n" ;
