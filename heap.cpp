@@ -31,7 +31,8 @@ class minHeap
     vector<Recipe*> searchName(string name) { // Added signature for search by name to heap
         for (int i = 0; i < size; i++) {
             if (Heap[i]->getName().find(name) != string::npos) {
-                insertName(Heap[i]);
+                littleGuy.push_back(recipe);
+                minHeapifyName(littleGuy.size()-1);
             }
         }
         sizeLG = 0;
@@ -40,7 +41,8 @@ class minHeap
         return copy;
     }
 
-    void insertName(Recipe* recipe) // insert function for  based on calories
+    /*
+    void insertName(Recipe* recipe) // insert function for minheap sorted alphabetically 
     {
         littleGuy.push_back(recipe);
         int lastNode = sizeLG;
@@ -52,6 +54,7 @@ class minHeap
             lastNode = parent(lastNode);
         }
     }
+    */
 
     void insertTime(Recipe* recipe) //cookingTime insert function
     {
