@@ -216,16 +216,29 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     ms = duration_cast<timeUnit>(end-start);
     cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
     if(!find.empty()) {
-        cout<< "Recipe found: "<<endl;
-        cout<<find.size()<<" results"<<endl;
-        for(int i = 0 ; i < find.size(); i++) {
-            cout<<"'"<<find[i]->getName()<<"' ";
-        }
-        cout<<endl;
-        cout<<endl;
-        cout<<nameHeap.size()<<" results"<<endl;
-        for(int i = 0 ; i < nameHeap.size(); i++) {
-            cout<<"'"<<nameHeap[i]->getName()<<"' ";
+//        cout<< "Recipe found: "<<endl;
+//        cout<<find.size()<<" results"<<endl;
+//        for(auto & i : find) {
+//            cout<<"'"<<i->getName()<<"' ";
+//        }
+//        cout<<endl;
+//        cout<<endl;
+//        cout<<nameHeap.size()<<" results"<<endl;
+//        for(auto & i : nameHeap) {
+//            cout<<"'"<<i->getName()<<"' ";
+//        }
+        cout<<"There are "<<find.size()<<" results"<<endl;
+        int i = 0;
+        while (i < find.size()) {
+            find[i]->printRecipe();
+            cout<<"Would you like to view another recipe?"<<endl;
+            cout<<"1 = Another\t 2 = No";
+            string viewAnother;
+            cin>>viewAnother;
+            if(viewAnother != "1") {
+                cout<<"Okay, no more recipes"<<endl;
+                break;
+            }
         }
     } else {
         cout<<"Recipe not found, unfortunately :("<<endl;
