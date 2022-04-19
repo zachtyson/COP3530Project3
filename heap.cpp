@@ -12,7 +12,7 @@ class minHeap
 {
     private:
     vector<Recipe*> Heap;
-    vector<Recipe*> littleGuy;
+    vector<Recipe*> littleGuy; //sub heap that contains an input string for searching recipes based on name within the primary minHeap
     int size = 0;
     int cap;
 
@@ -35,7 +35,7 @@ class minHeap
             }
         }
         vector<Recipe*> copy = littleGuy;
-        littleGuy.clear();
+        littleGuy.clear(); //clears the subHeap for when search is called again
         return copy;
     }
 
@@ -56,7 +56,7 @@ class minHeap
         }
     }
 
-    void insertCal(Recipe* recipe) //calories insert function
+    void insertCal(Recipe* recipe) // insert function for minHeap based on calories
     {
         if (size >= cap)
         {
@@ -78,7 +78,7 @@ class minHeap
         Heap[0]->printRecipe();
     }
 
-    void removeTime() { // Could very well be wrong. Assuming position is meant to be root.
+    void removeTime() { 
         Heap[0] = Heap[size - 1];
         Heap.pop_back();
         minHeapifyTime(0);
@@ -92,7 +92,7 @@ class minHeap
         size--;
     }
 
-    vector<Recipe*> makeMaxHeap(vector<Recipe*> Heap)
+    vector<Recipe*> makeMaxHeap(vector<Recipe*> Heap) //uses stack to turn minHeap into maxHeap
     {
         stack<Recipe*> maxHeap;
         for(int i = 0; i < Heap.size(); i++)
@@ -141,7 +141,7 @@ class minHeap
         Heap[second] = temp; 
     }
 
-    void minHeapifyTime(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
+    void minHeapifyTime(int position) //minHeapify function that sorts the heap from least time to make to most
     {
         if(leaf(position == false))
         {
@@ -161,7 +161,7 @@ class minHeap
         }
     }
 
-    void minHeapifyCal(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
+    void minHeapifyCal(int position) //minHeapify function that sorts the heap from most nutritious (least calories) to least nutritious (most calories)
     {
         if(leaf(position == false))
         {
@@ -181,7 +181,7 @@ class minHeap
         }
     }
 
-    void minHeapifyName(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
+    void minHeapifyName(int position) //minHeapify function that sorts the subHeap, the heap made from a searched input string, in alphabetical order
     {
         if(leaf(position == false))
         {
