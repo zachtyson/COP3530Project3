@@ -24,7 +24,7 @@ void parseData(vector<Recipe *>& recipes, string fileName) {
     cout<<"Dataset parsed in : "<<ms.count()<<timeUnitName<<endl;
 }
 
-void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTimeChoice) {
+void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>& BTree, string calTimeChoice) {
     int order;
     string userInput;
     float userOption;
@@ -140,7 +140,7 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
     }
 }
 
-void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
+void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& HeapN) {
     string searchKey;
     cout<<"Enter the name of the food you are trying to search"<<endl;
     cin>>searchKey;
@@ -153,7 +153,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     auto ms = duration_cast<timeUnit>(end-start);
     cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
     start = system_clock::now();
-    vector<Recipe*> nameHeap = Heap.searchName(searchKey);
+    vector<Recipe*> nameHeap = HeapN.searchName(searchKey);
     end = system_clock::now();
     ms = duration_cast<timeUnit>(end-start);
     cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
@@ -170,6 +170,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
 //            cout<<"'"<<i->getName()<<"' ";
 //        }
         cout<<"There are "<<find.size()<<" results, showing the first"<<endl;
+        cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
         int i = 0;
         if(find.size() == 1) {
             cout<<"There is only one result matching your search, displaying now"<<endl;
@@ -192,20 +193,21 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     }
 }
 
-void constructHeap(vector<Recipe *>& recipes,minHeap& HeapT, minHeap& HeapC) {
+void constructHeap(vector<Recipe *>& recipes,minHeap<pair<float,Recipe*>>& HeapT, minHeap<pair<float,Recipe*>>& HeapC,minHeap<pair<string,Recipe*>>& HeapN) {
     time_point<system_clock> start, end;
     start = system_clock::now();
     for(auto & recipe : recipes)
     {
-        HeapT.insertTime(recipe);
-        HeapC.insertCal(recipe);
+        HeapT.insertGen(make_pair(recipe->getTime(), recipe));
+        HeapC.insertGen(make_pair(recipe->getTime(), recipe));
+        HeapN.insertGen(make_pair(recipe->getName(), recipe));
     }
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
     cout<<"Heap Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
-void constructBTree(vector<Recipe *>& recipes,BTree<pair<float, Recipe*>> BTreeT,BTree<pair<float, Recipe*>> BTreeC, BTree<pair<string, Recipe*>> BTreeN) {
+void constructBTree(vector<Recipe *>& recipes,BTree<pair<float, Recipe*>>& BTreeT,BTree<pair<float, Recipe*>>& BTreeC, BTree<pair<string, Recipe*>>& BTreeN) {
     time_point<system_clock> start, end;
     start = system_clock::now();
     for(auto & recipe : recipes) {
@@ -228,9 +230,10 @@ int main() {
     cout << "Enter in 2 if you would like to: Get a list of the healthiest recipes to cook!" << endl;
     cout << "Enter in 3 if you would like to: Search for a recipe" << endl;
 
-    minHeap HeapT = minHeap(recipes.size());
-    minHeap HeapC = minHeap(recipes.size());
-    constructHeap(recipes,HeapT,HeapC);
+    minHeap<pair<float,Recipe*>> HeapT = minHeap<pair<float,Recipe*>>(recipes.size());
+    minHeap<pair<float, Recipe*>> HeapC = minHeap<pair<float,Recipe*>>(recipes.size());
+    minHeap<pair<string, Recipe*>> HeapN = minHeap<pair<string,Recipe*>>(recipes.size());
+    constructHeap(recipes,HeapT,HeapC, HeapN);
     BTree<pair<float, Recipe*>> BTreeT;
     BTree<pair<float, Recipe*>> BTreeC;
     BTree<pair<string, Recipe*>> BTreeN;
@@ -252,7 +255,7 @@ int main() {
             cout<<"Goodbye"<<endl;
             break;
         } else if(option == "3"){
-            Option3(BTreeN, HeapC);
+            Option3(BTreeN, HeapN);
         } else {
             cout<<"Unrecognized command"<<endl;
         }
