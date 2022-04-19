@@ -8,11 +8,11 @@
 using namespace std;  
 
 //Heap structure and associated functions.
-//checking commit
 class minHeap
 {
     private:
     vector<Recipe*> Heap;
+    vector<Recipe*> littleGuy;
     int size = 0;
     int cap;
 
@@ -22,17 +22,21 @@ class minHeap
         this->cap = cap;
         this->size = 0;
     }
+
     int getSize() {
         return size;
     }
+
     vector<Recipe*> searchName(string name) { // Added signature for search by name to heap
-        vector<Recipe*> littleGuy;
         for (int i = 0; i < size; i++) {
-            if (Heap[i]->getName().compare(name) == 0) {
+            if (Heap[i]->getName().find(name) != string::npos) {
                 littleGuy.push_back(Heap[i]);
+                minHeapifyName(0);
             }
         }
-
+        vector<Recipe*> copy = littleGuy;
+        littleGuy.clear();
+        return copy;
     }
 
     void insertTime(Recipe* recipe) //cookingTime insert function
@@ -45,7 +49,7 @@ class minHeap
         int lastNode = size;
         size++;
 
-        while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) 
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
@@ -62,18 +66,15 @@ class minHeap
         int lastNode = size;
         size++;
 
-        while (Heap[lastNode]->getNutrients()[0] < Heap[parent(lastNode)]->getNutrients()[0]) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        while (Heap[lastNode]->getNutrients()[0] < Heap[parent(lastNode)]->getNutrients()[0])
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
         }
     }
     
-    void printTop() //missing rest of info
+    void printTop()
     {
-//        cout << "Recipe: " << Heap[0]->getName() << "\n" << "Time to make: " << Heap[0]->getTime() << "\n" << "Calories: " << Heap[0]->getNutrients()[0] << "\n" ;
-//        cout << "Recipe: " << Heap[1]->getName() << "\n" << "Time to make: " << Heap[1]->getTime() << "\n" << "Calories: " << Heap[1]->getNutrients()[1] << "\n" ;
-//        cout << "Recipe: " << Heap[2]->getName() << "\n" << "Time to make: " << Heap[2]->getTime() << "\n" << "Calories: " << Heap[2]->getNutrients()[2] << "\n" ;
         Heap[0]->printRecipe();
     }
 
@@ -179,13 +180,14 @@ class minHeap
             }
         }
     }
+
     void minHeapifyName(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
     {
         if(leaf(position == false))
         {
-            if(Heap[position]->getName() > Heap[leftC(position)]->getName() || Heap[position]->getName() > Heap[RightC(position)]->getName())
+            if(littleGuy[position]->getName() > littleGuy[leftC(position)]->getName() || littleGuy[position]->getName() > littleGuy[RightC(position)]->getName())
             {
-                if(Heap[leftC(position)]->getName() < Heap[RightC(position)]->getName())
+                if(littleGuy[leftC(position)]->getName() < littleGuy[RightC(position)]->getName())
                 {
                     swap(position, leftC(position));
                     minHeapifyName(leftC(position));
