@@ -86,7 +86,6 @@ class minHeap
             lastNode = parent(lastNode);
         }
     }
-    
 
     void printTop()
     {
