@@ -2,8 +2,8 @@
 // Created by Zachary on 4/14/2022.
 //
 
-#ifndef UNTITLED4_RECIPE_H
-#define UNTITLED4_RECIPE_H
+#ifndef PROJECT3_RECIPE_H
+#define PROJECT3_RECIPE_H
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -40,4 +40,4 @@ private:
 //NutrientsList: Calories,Sugar (%DV), Total Fat(%DV), Sodium (%DV)
 //Protein (%DV), Saturated Fat (%DV), Carbohydrates (%DV)
 
-#endif //UNTITLED4_RECIPE_H
+#endif //PROJECT3_RECIPE_H
