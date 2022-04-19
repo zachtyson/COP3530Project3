@@ -34,17 +34,19 @@ class minHeap
                 insertName(Heap[i]);
             }
         }
+        sizeLG = 0;
         vector<Recipe*> copy = littleGuy;
         littleGuy.clear(); //clears the subHeap for when search is called again
         return copy;
     }
 
-    void insertName(Recipe* recipe) // insert function for minHeap based on calories
+    void insertName(Recipe* recipe) // insert function for  based on calories
     {
         littleGuy.push_back(recipe);
         int lastNode = sizeLG;
         sizeLG++;
-        while (littleGuy[lastNode]->getName() < littleGuy[parent(lastNode)]->getName())
+
+        while (littleGuy[lastNode]->getName().compare(littleGuy[parent(lastNode)]->getName()) < 0)
         {
             swapLG(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
