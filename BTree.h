@@ -7,6 +7,9 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <algorithm>
+#include "Recipe.h"
+#include <string>
 //2-3-4 tree
 
 using namespace std;
@@ -24,13 +27,13 @@ class BTree
         void balanceTree(int index, NodeB* nodeToBalance);
         void inorderTraversal(queue<type>& q);
         void revorderTraversal(stack<type>& s);
-        NodeB* find(type val);
+        Recipe* find(string val);
     };
 public:
     int totalKeys = 0;
     void inorder(queue<type>& q); // Inorder traversal
     void revorder(stack<type>& s); // Reverse traversal
-    NodeB* search(type val); //Search for certain value (doesn't handle duplicates, but the data set shouldn't have any duplicate names)
+    Recipe* search(string val); //Search for certain value (doesn't handle duplicates, but the data set shouldn't have any duplicate names)
     void insert(type val); //Insert value into tree
     NodeB* root = nullptr; //Root Node Pointer
 };
@@ -84,20 +87,7 @@ void BTree<type>::NodeB::inorderTraversal(queue<type>& q) {
     }
 }
 
-template<typename type>
-typename BTree<type>::NodeB *BTree<type>::NodeB::find(type val) {
-    int index = 0;
-    while (index < keyIndex && val > nodeKeys[index]) {
-        index++;
-    }
-    if (nodeKeys[index] == val) {
-        return this;
-    }
-    if (isLeaf) {
-        return nullptr;
-    }
-    return nodeChildren[index]->find(val);
-}
+
 
 template<typename type>
 void BTree<type>::NodeB::insertToNode(type val) {
@@ -141,6 +131,22 @@ void BTree<type>::NodeB::revorderTraversal(stack<type> &s) {
     }
 }
 
+template<typename type>
+Recipe *BTree<type>::NodeB::find(string val) {
+    int index = 0;
+    while (index < keyIndex && val > nodeKeys[index].first) {
+        index++;
+    }
+
+    if (nodeKeys[index].first.find(val) != string::npos) {
+        return nodeKeys[index].second;
+    }
+    if (isLeaf) {
+        return nullptr;
+    }
+    return nodeChildren[index]->find(val);
+}
+
 
 template<typename type>
 void BTree<type>::insert(type val) {
@@ -167,13 +173,7 @@ void BTree<type>::insert(type val) {
     }
 }
 
-template<typename type>
-typename BTree<type>::NodeB* BTree<type>::search(type val) {
-    if(root == nullptr) {
-        return nullptr;
-    }
-    return root->find(val);
-}
+
 
 template<typename type>
 void BTree<type>::inorder(queue<type>& q) {
@@ -189,6 +189,14 @@ void BTree<type>::revorder(stack<type> &s) {
         return;
     }
     root->revorderTraversal(s);
+}
+
+template<typename type>
+Recipe *BTree<type>::search(string val) {
+    if(root == nullptr) {
+        return nullptr;
+    }
+    return root->find(val);
 }
 
 #endif //PROJECT3_BTREE_H

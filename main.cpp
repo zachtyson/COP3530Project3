@@ -36,6 +36,28 @@ void calorieRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTre
     cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
 }
 
+void nameRecipes(vector<Recipe *>& recipes, BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
+    time_point<system_clock> start, end;
+    start = system_clock::now();
+    if(Heap.getSize() == 0) {
+        for(auto & recipe : recipes)
+        {
+            Heap.insertCal(recipe);
+        }
+    }
+    end = system_clock::now();
+    auto ms = duration_cast<milliseconds>(end-start);
+    cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+
+    start = system_clock::now();
+    for(auto & recipe : recipes) {
+        BTree.insert(make_pair(recipe->getName(),recipe));
+    }
+    end = system_clock::now();
+    ms = duration_cast<milliseconds>(end-start);
+    cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+}
+
 void timeRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree,minHeap& Heap ) {
     time_point<system_clock> start, end;
     //minHeap Heap = minHeap(recipes.size());
@@ -110,6 +132,8 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
     if(order == 1) {
         queue<pair<float, Recipe*>> q;
         BTree.inorder(q);
+        time_point<system_clock> start, end;
+        start = system_clock::now();
         if(userOption != -1) {
             while(true) {
                 if(q.front().first >= userOption) {
@@ -118,6 +142,9 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
                 q.pop();
             }
         }
+        end = system_clock::now();
+        auto ms = duration_cast<milliseconds>(end-start);
+        cout<<"Descending constructed in "<<ms.count()<<"ms"<<endl;
         while(!q.empty()) {
             q.front().second->printRecipe();
             q.pop();
@@ -136,6 +163,8 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
     } else if(order == 2){
         stack<pair<float, Recipe*>> s;
         BTree.revorder(s);
+        time_point<system_clock> start, end;
+        start = system_clock::now();
         if(userOption != -1) {
             while(true) {
                 if(s.top().first <= userOption) {
@@ -144,6 +173,9 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
                 s.pop();
             }
         }
+        end = system_clock::now();
+        auto ms = duration_cast<milliseconds>(end-start);
+        cout<<"Descending constructed in "<<ms.count()<<"ms"<<endl;
         while(!s.empty()) {
             s.top().second->printRecipe();
             s.pop();
@@ -163,6 +195,20 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
     }
 }
 
+void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
+    string searchKey;
+    cout<<"Enter the name of the food you are trying to search"<<endl;
+    cin>>searchKey;
+    transform(searchKey.begin(), searchKey.end(), searchKey.begin(), ::tolower);
+    if(BTree.search(searchKey) != nullptr) {
+        cout<< "Recipe found: "<<endl;
+        BTree.search(searchKey)->printRecipe();
+    } else {
+        cout<<"Recipe not found, unfortunately :("<<endl;
+    }
+
+}
+
 int main() {
     vector<Recipe *> recipes;
     parseData(recipes,"RecipeDataset.csv");
@@ -178,6 +224,8 @@ int main() {
     minHeap HeapC = minHeap(recipes.size());
     bool initializedC = false;
     BTree<pair<float, Recipe*>> BTreeC;
+    bool initializedN = false;
+    BTree<pair<string, Recipe*>> BTreeN;
     string calTimeChoice;
     while (true) {
         string option;
@@ -201,6 +249,12 @@ int main() {
         } else if(option == "-1") {
             cout<<"Goodbye"<<endl;
             break;
+        } else if(option == "3"){
+            if(!initializedN) {
+                nameRecipes(recipes, BTreeN, HeapC);
+                initializedN= true;
+            }
+            Option3(BTreeN, HeapC);
         } else {
             cout<<"Unrecognized command"<<endl;
         }

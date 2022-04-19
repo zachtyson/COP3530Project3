@@ -13,7 +13,7 @@ class minHeap
     private:
     vector<Recipe*> Heap;
     int size;
-    int cap;
+    int cap = 0;
 
     public:
     minHeap(int cap) //cookingTime
@@ -21,7 +21,9 @@ class minHeap
         this->cap = cap;
         this->size = 0;
     }
-
+    int getSize() {
+        return size;
+    }
     void insertTime(Recipe* recipe) //cookingTime insert function
     {
         if (size >= cap)
