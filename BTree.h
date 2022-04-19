@@ -28,14 +28,14 @@ class BTree //Class definition B Tree
         void balanceTree(int index, NodeB* nodeToBalance); //Balance Tree splits a node into two, and then sets its pointers relative to its parent
         void inorderTraversal(queue<type>& q); //Traverses the entire tree and pushes into a queue
         void revorderTraversal(stack<type>& s); //Traverses entire tree and pushes into a stack
-        Recipe* find(string val); //Searches for a given string (name) within the tree, DO NOT USE IF TEMPLATE TYPE IS NOT PAIR<STRING,RECIPE*>
+        void find(string val, vector<Recipe*>& r); //Searches for a given string (name) within the tree, DO NOT USE IF TEMPLATE TYPE IS NOT PAIR<STRING,RECIPE*>
     };
     int totalKeys = 0; //number of keys in the tree
 public:
     int getTotalKeys(); //Returns total keys
     void inorder(queue<type>& q); // Inorder traversal
     void revorder(stack<type>& s); // Reverse inorder traversal
-    Recipe* search(string val); //Search for certain value (doesn't handle duplicates, but the data set shouldn't have any duplicate names)
+    void search(string val, vector<Recipe*>& r); //Search for all keys containing val
     void insert(type val); //Insert value into tree
     NodeB* root = nullptr; //Root Node Pointer
 };
@@ -144,7 +144,7 @@ void BTree<type>::NodeB::revorderTraversal(stack<type> &s) {
 }
 
 template<typename type>
-Recipe *BTree<type>::NodeB::find(string val) {
+void BTree<type>::NodeB::find(string val, vector<Recipe*>& r) {
     //Compares string val to all keys within this node
     //          B  D   F
     //        A  C   E  G
@@ -153,18 +153,18 @@ Recipe *BTree<type>::NodeB::find(string val) {
     //Otherwise, it recursively calls find() on the child
     //that best matches
 
-    int index = 0;
-    while (index < keyIndex && val > nodeKeys[index].first) {
-        index++;
+    for (int i = 0; i < keyIndex; i++)
+    {
+        if (!isLeaf) {
+            nodeChildren[i]->find(val,r);
+        }
+        if (nodeKeys[i].first.find(val) != string::npos) {
+            return r.push_back(nodeKeys[i].second);
+        }
     }
-
-    if (nodeKeys[index].first.find(val) != string::npos) {
-        return nodeKeys[index].second;
+    if (!isLeaf) {
+        nodeChildren[keyIndex]->find(val,r);
     }
-    if (isLeaf) {
-        return nullptr;
-    }
-    return nodeChildren[index]->find(val);
 }
 
 
@@ -216,12 +216,12 @@ void BTree<type>::revorder(stack<type> &s) {
 }
 
 template<typename type>
-Recipe *BTree<type>::search(string val) {
+void BTree<type>::search(string val, vector<Recipe*>& r) {
     if(root == nullptr) {
-        return nullptr;
+        return;
     }
     //Return recipe pointer from find function
-    return root->find(val);
+    return root->find(val,r);
 }
 
 template<typename type>

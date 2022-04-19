@@ -49,16 +49,16 @@ void nameRecipes(vector<Recipe *>& recipes, BTree<pair<string, Recipe*>>& BTree,
         }
     }
     end = system_clock::now();
-    auto ms = duration_cast<milliseconds>(end-start);
-    cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+    auto ms = duration_cast<timeUnit>(end-start);
+    cout<<"Heap Constructed in: "<<ms.count()<<timeUnitName<<endl;
 
     start = system_clock::now();
     for(auto & recipe : recipes) {
         BTree.insert(make_pair(recipe->getName(),recipe));
     }
     end = system_clock::now();
-    ms = duration_cast<milliseconds>(end-start);
-    cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+    ms = duration_cast<timeUnit>(end-start);
+    cout<<"BTree Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
 void timeRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree,minHeap& Heap ) {
@@ -205,13 +205,14 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     transform(searchKey.begin(), searchKey.end(), searchKey.begin(), ::tolower);
     time_point<system_clock> start, end;
     start = system_clock::now();
-    Recipe* find = BTree.search(searchKey);
+    vector<Recipe*> find;
+    BTree.search(searchKey,find);
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
     cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
-    if(find != nullptr) {
+    if(!find.empty()) {
         cout<< "Recipe found: "<<endl;
-        find->printRecipe();
+        cout<<find.size()<<" results"<<endl;
     } else {
         cout<<"Recipe not found, unfortunately :("<<endl;
     }
