@@ -63,7 +63,7 @@ class minHeap
         int lastNode = size;
         size++;
 
-        while (Heap[lastNode]->getNutrients()[0] < Heap[parent(lastNode)]->getNutrients()[0]) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        while (Heap[lastNode]->getNutrients()[0] < Heap[parent(lastNode)]->getNutrients()[0])
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
@@ -72,9 +72,6 @@ class minHeap
     
     void printTop()
     {
-//        cout << "Recipe: " << Heap[0]->getName() << "\n" << "Time to make: " << Heap[0]->getTime() << "\n" << "Calories: " << Heap[0]->getNutrients()[0] << "\n" ;
-//        cout << "Recipe: " << Heap[1]->getName() << "\n" << "Time to make: " << Heap[1]->getTime() << "\n" << "Calories: " << Heap[1]->getNutrients()[1] << "\n" ;
-//        cout << "Recipe: " << Heap[2]->getName() << "\n" << "Time to make: " << Heap[2]->getTime() << "\n" << "Calories: " << Heap[2]->getNutrients()[2] << "\n" ;
         Heap[0]->printRecipe();
     }
 
