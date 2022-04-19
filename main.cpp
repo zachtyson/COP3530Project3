@@ -3,6 +3,7 @@
 #include "Recipe.h"
 #include "heap.cpp"
 #include <vector>
+#include <fstream>
 #include <chrono>
 
 #define timeUnitName " ms"

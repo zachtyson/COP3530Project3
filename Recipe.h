@@ -16,10 +16,11 @@ public:
     void setNutrients(string nutrients);
     void setIngredients(string ingredients);
     void setTags(string tags);
+    void writeToFile(ofstream& s); //Testing purposes only
     string getName() const;
-    int getID() const; //unused
+    int getID() const;
     int getTime() const ;
-    vector<string> getTags() const; //unused
+    vector<string> getTags() const;
     vector<float> getNutrients() const;
     vector<string> getIngredients()const;
     friend bool operator==(const Recipe& recipe1, const Recipe& recipe2);
@@ -28,7 +29,7 @@ public:
     friend bool operator>(const Recipe& recipe1, const Recipe& recipe2);
 private:
     string name;
-    int ID; //unused
+    int ID;
     int time;
     vector<string> tagsList;
     vector<float> nutrientsList;
