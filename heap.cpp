@@ -22,17 +22,21 @@ class minHeap
         this->cap = cap;
         this->size = 0;
     }
+    
     int getSize() {
         return size;
     }
+
     vector<Recipe*> searchName(string name) { // Added signature for search by name to heap
         for (int i = 0; i < size; i++) {
             if (Heap[i]->getName().find(name) != string::npos) {
                 littleGuy.push_back(Heap[i]);
             }
-            minHeapifyTime(0);
+            minHeapifyName(0);
         }
-
+        vector<Recipe*> copy = littleGuy;
+        littleGuy.clear();
+        return copy;
     }
 
     void insertTime(Recipe* recipe) //cookingTime insert function
@@ -176,6 +180,7 @@ class minHeap
             }
         }
     }
+
     void minHeapifyName(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
     {
         if(leaf(position == false))
