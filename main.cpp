@@ -7,18 +7,6 @@
 #include <chrono>
 using namespace std;
 using namespace std::chrono;
-
-bool number(const string& string)
-{
-    for (char const i : string) {
-        if (std::isdigit(i) == 0) 
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 void parseData(vector<Recipe *>& recipes, string fileName) {
     ifstream input(fileName, ios::in);
     string curr;
@@ -31,9 +19,9 @@ void parseData(vector<Recipe *>& recipes, string fileName) {
 void calorieRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree, minHeap& Heap) {
     time_point<system_clock> start, end;
     start = system_clock::now();
-    for(int i = 0; i < recipes.size(); i++)
+    for(auto & recipe : recipes)
     {
-        Heap.insertCal(recipes[i]);
+        Heap.insertCal(recipe);
     }
     end = system_clock::now();
     auto ms = duration_cast<milliseconds>(end-start);
@@ -52,9 +40,9 @@ void timeRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree,m
     time_point<system_clock> start, end;
     //minHeap Heap = minHeap(recipes.size());
     start = system_clock::now();
-    for(int i = 0; i < recipes.size(); i++)
+    for(auto & recipe : recipes)
     {
-        Heap.insertTime(recipes[i]);
+        Heap.insertTime(recipe);
     }
     end = system_clock::now();
     auto ms = duration_cast<milliseconds>(end-start);
@@ -77,36 +65,29 @@ int main() {
     cout << "Enter in 1 if you would like to: Get a list of the fastest recipes to cook!" << endl;
     cout << "Enter in 2 if you would like to: Get a list of the healthiest recipes to cook!" << endl;
 
-    string option;
-    cin >> option;
 
-    if(number(option) == false)
-    {
-        cout << "Oh oh you input an unrecoginzable value, please re-run Cooking by the Book!" << endl;
-        return 0;
-    }else
-    {
-        if(option != "1" && option != "2")
-        {
-            cout << "Oh oh you input an unrecoginzable value, please re-run Cooking by the Book!" << endl;
-            return 0;
-        }
-    }
     minHeap Heap = minHeap(recipes.size());
     BTree<pair<float, Recipe*>> BTree;
     string calTimeChoice;
-    if(option == "1")
-    {
-        calTimeChoice = "minutes";
-        timeRecipes(recipes,BTree,Heap);
+    while (true) {
+        string option;
+        cin >> option;
+        if(option == "1")
+        {
+            calTimeChoice = "minutes";
+            timeRecipes(recipes,BTree,Heap);
+            break;
+        }
+        else if (option == "2") {
+            calTimeChoice = "calories";
+            calorieRecipes(recipes, BTree, Heap);
+            break;
+        } else {
+            cout<<"Unrecognized command"<<endl;
+        }
+    }
 
-    }
-    else
-    {
-        //minHeap Heap = minHeap(recipes.size());
-        calTimeChoice = "calories";
-        calorieRecipes(recipes, BTree, Heap);
-    }
+
     int order;
     string userInput;
     float userOption;
