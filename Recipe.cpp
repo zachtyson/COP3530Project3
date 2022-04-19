@@ -29,17 +29,18 @@ Recipe::Recipe(string curr) {
 void Recipe::printRecipe() {
     //NutrientsList: Calories,Sugar (%DV), Total Fat(%DV), Sodium (%DV)
 //Protein (%DV), Saturated Fat (%DV), Carbohydrates (%DV)
-    cout<<"Name: "<<name<<"\n"<<"Time: "<<time<<" minutes"<<"\nTags:";
-    for(auto & i : tagsList) {
-        cout<<" "<<i;
-    }
+    cout<<"Name: "<<name<<"\n"<<"Time: "<<time<<" minutes";
+//    cout<<"\nTags:";
+//    for(auto & i : tagsList) {
+//        cout<<" "<<i;
+//    }
     cout<<"\nNutrients: ";
     cout<<"\tCalories: "<<nutrientsList[0]<<" kcal";
     cout<<"\tSugar: "<<nutrientsList[1]<<"% DV";
     cout<<"\tTotal Fat: "<<nutrientsList[2]<<"% DV";
     cout<<"\tSodium: "<<nutrientsList[3]<<"% DV";
     cout<<"\tProtein: "<<nutrientsList[4]<<"% DV";
-    cout<<"\n\tSaturated Fat: "<<nutrientsList[5]<<"% DV";
+    cout<<"\n\t\tSaturated Fat: "<<nutrientsList[5]<<"% DV";
     cout<<"\tCarbohydrates: "<<nutrientsList[6]<<"% DV";
     cout<<"\nIngredients:";
     for(auto & i : ingredientsList) {
