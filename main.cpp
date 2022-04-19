@@ -31,7 +31,7 @@ void parseData(vector<Recipe *>& recipes, string fileName) {
     }
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
-    cout<<"Dataset parsed in : "<<ms.count()<<timeUnitName<<endl;
+    cout<<"Data set parsed in : "<<ms.count()<<timeUnitName<<endl;
 }
 
 void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>& BTree, string calTimeChoice) {
@@ -99,7 +99,12 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         }
         end = system_clock::now();
         auto ms = duration_cast<timeUnit>(end-start);
-        cout<<"Descending constructed in "<<ms.count()<<timeUnitName<<endl;
+        cout<<"B-Tree ascending constructed in "<<ms.count()<<timeUnitName<<endl;
+        start = system_clock::now();
+        //TODO PUT ASCENDING HEAP FUNCTION HERE
+        end = system_clock::now();
+        ms = duration_cast<timeUnit>(end-start);
+        cout<<"Heap ascending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!q.empty()) {
             q.front().second->printRecipe();
             q.pop();
@@ -130,7 +135,12 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         }
         end = system_clock::now();
         auto ms = duration_cast<timeUnit>(end-start);
-        cout<<"Descending constructed in "<<ms.count()<<timeUnitName<<endl;
+        cout<<"B-Tree descending constructed in "<<ms.count()<<timeUnitName<<endl;
+        start = system_clock::now();
+        //TODO PUT DESCENDING HEAP FUNCTION HERE
+        end = system_clock::now();
+        ms = duration_cast<timeUnit>(end-start);
+        cout<<"Heap descending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!s.empty()) {
             s.top().second->printRecipe();
             s.pop();
@@ -161,7 +171,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     BTree.search(searchKey,find);
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
-    cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
+    cout<<"B-Tree searched in: "<<ms.count()<<timeUnitName<<endl;
     start = system_clock::now();
     vector<Recipe*> nameHeap = HeapN.searchName(searchKey);
     end = system_clock::now();
@@ -219,7 +229,7 @@ void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     BTree.RecipeSearch(ingredientsSearch,find);
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
-    cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
+    cout<<"B-Tree searched in: "<<ms.count()<<timeUnitName<<endl;
     std::sort(ingredientsSearch.begin(), ingredientsSearch.end());
     start = system_clock::now();
     vector<Recipe*> nameHeap;
@@ -263,7 +273,7 @@ void constructHeap(vector<Recipe *>& recipes,minHeap<pair<float,Recipe*>>& HeapT
     start = system_clock::now();
     for(auto & recipe : recipes)
     {
-        HeapT.insertGen(make_pair(recipe->getTime(), recipe));
+        HeapT.insertGen(make_pair(recipe->getNutrients()[0], recipe));
         HeapC.insertGen(make_pair(recipe->getTime(), recipe));
         HeapN.insertGen(make_pair(recipe->getName(), recipe));
     }
@@ -283,12 +293,11 @@ void constructBTree(vector<Recipe *>& recipes,BTree<pair<float, Recipe*>>& BTree
 
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
-    cout<<"BTree Constructed in: "<<ms.count()<<timeUnitName<<endl;
+    cout<<"B-Tree Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
 int main() {
     vector<Recipe *> recipes;
-    parseData(recipes,"RecipeDataset.csv");
     cout << "Welcome to Cooking by the Book!" << endl;
     cout << "We have over 200,000 recipes are our disposal, fit for your needs! What are you looking for today?" << endl;
     cout << "Enter in 1 if you would like to: Get a list of the fastest recipes to cook!" << endl;
@@ -296,6 +305,7 @@ int main() {
     cout << "Enter in 3 if you would like to: Search for a recipe" << endl;
     cout << "Enter in 4 if you would like to: Search for recipes using ingredients" << endl;
     cout << "Enter in -1 if you would like to: Exit" << endl;
+    parseData(recipes,"RecipeDataset.csv");
 
     minHeap<pair<float,Recipe*>> HeapT = minHeap<pair<float,Recipe*>>(recipes.size());
     minHeap<pair<float, Recipe*>> HeapC = minHeap<pair<float,Recipe*>>(recipes.size());
