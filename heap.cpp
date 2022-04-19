@@ -84,12 +84,12 @@ class minHeap
         stack<Recipe*> maxHeap;
         for(int i = 0; i < Heap.size(); i++)
         {
-            maxHeap.push(Heap[i]);
+            maxHeap.push_back(Heap[i]);
         }
         vector<Recipe*> max;
         while(maxHeap.empty() == false)
         {
-            max.push(maxHeap.top());
+            max.push_back(maxHeap.top());
             maxHeap.pop();
         }
         return max;
