@@ -23,6 +23,10 @@ class minHeap
         this->size = 0;
     }
 
+    void searchName(string name) { // Added signature for search by name to heap
+
+    }
+
     void insertTime(Recipe* recipe) //cookingTime insert function
     {
         if (size >= cap)
@@ -84,7 +88,7 @@ class minHeap
         stack<Recipe*> maxHeap;
         for(int i = 0; i < Heap.size(); i++)
         {
-            maxHeap.push_back(Heap[i]);
+            maxHeap.push(Heap[i]);
         }
         vector<Recipe*> max;
         while(maxHeap.empty() == false)
