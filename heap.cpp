@@ -3,6 +3,7 @@
 #include <string>
 #include <iterator>
 #include <math.h>
+#include <stack>
 #include "Recipe.h"
 using namespace std;  
 
@@ -13,7 +14,7 @@ class minHeap
     private:
     vector<Recipe*> Heap;
     int size;
-    int cap = 0;
+    int cap;
 
     public:
     minHeap(int cap) //cookingTime
@@ -21,9 +22,11 @@ class minHeap
         this->cap = cap;
         this->size = 0;
     }
-    int getSize() {
-        return size;
+
+    void searchName(string name) { // Added signature for search by name to heap
+
     }
+
     void insertTime(Recipe* recipe) //cookingTime insert function
     {
         if (size >= cap)
@@ -78,6 +81,22 @@ class minHeap
         Heap.pop_back();
         minHeapifyCal(0);
         size--;
+    }
+
+    vector<Recipe*> makeMaxHeap(vector<Recipe*> Heap)
+    {
+        stack<Recipe*> maxHeap;
+        for(int i = 0; i < Heap.size(); i++)
+        {
+            maxHeap.push(Heap[i]);
+        }
+        vector<Recipe*> max;
+        while(maxHeap.empty() == false)
+        {
+            max.push_back(maxHeap.top());
+            maxHeap.pop();
+        }
+        return max;
     }
 
     private:
