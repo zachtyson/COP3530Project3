@@ -14,6 +14,7 @@ class minHeap
     vector<Recipe*> Heap;
     vector<Recipe*> littleGuy; //sub heap that contains an input string for searching recipes based on name within the primary minHeap
     int size = 0;
+    int sizeLG = 0;
     int cap;
 
     public:
@@ -30,13 +31,24 @@ class minHeap
     vector<Recipe*> searchName(string name) { // Added signature for search by name to heap
         for (int i = 0; i < size; i++) {
             if (Heap[i]->getName().find(name) != string::npos) {
-                littleGuy.push_back(Heap[i]);
-                minHeapifyName(0);
+                insertName(Heap[i]);
             }
         }
         vector<Recipe*> copy = littleGuy;
         littleGuy.clear(); //clears the subHeap for when search is called again
         return copy;
+    }
+
+    void insertName(Recipe* recipe) // insert function for minHeap based on calories
+    {
+        littleGuy.push_back(recipe);
+        int lastNode = sizeLG;
+        sizeLG++;
+        while (littleGuy[lastNode]->getName() < littleGuy[parent(lastNode)]->getName())
+        {
+            swapLG(lastNode, parent(lastNode));
+            lastNode = parent(lastNode);
+        }
     }
 
     void insertTime(Recipe* recipe) //cookingTime insert function
@@ -73,6 +85,7 @@ class minHeap
         }
     }
     
+
     void printTop()
     {
         Heap[0]->printRecipe();
@@ -139,6 +152,14 @@ class minHeap
         temp  = Heap[first];
         Heap[first] = Heap[second];
         Heap[second] = temp; 
+    }
+
+    void swapLG(int first, int second)
+    {
+        Recipe* temp;
+        temp  = littleGuy[first];
+        littleGuy[first] = littleGuy[second];
+        littleGuy[second] = temp; 
     }
 
     void minHeapifyTime(int position) //minHeapify function that sorts the heap from least time to make to most
