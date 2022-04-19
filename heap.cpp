@@ -22,7 +22,7 @@ class minHeap
         this->cap = cap;
         this->size = 0;
     }
-    
+
     int getSize() {
         return size;
     }
@@ -31,8 +31,8 @@ class minHeap
         for (int i = 0; i < size; i++) {
             if (Heap[i]->getName().find(name) != string::npos) {
                 littleGuy.push_back(Heap[i]);
+                minHeapifyName(0);
             }
-            minHeapifyName(0);
         }
         vector<Recipe*> copy = littleGuy;
         littleGuy.clear();
