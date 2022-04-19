@@ -218,14 +218,12 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     if(!find.empty()) {
         cout<< "Recipe found: "<<endl;
         cout<<find.size()<<" results"<<endl;
-        std::sort(find.begin(), find.end());
         for(int i = 0 ; i < find.size(); i++) {
             cout<<"'"<<find[i]->getName()<<"' ";
         }
         cout<<endl;
         cout<<endl;
         cout<<nameHeap.size()<<" results"<<endl;
-        std::sort(nameHeap.begin(), nameHeap.end());
         for(int i = 0 ; i < nameHeap.size(); i++) {
             cout<<"'"<<nameHeap[i]->getName()<<"' ";
         }
