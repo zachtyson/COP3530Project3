@@ -169,13 +169,79 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
 //        for(auto & i : nameHeap) {
 //            cout<<"'"<<i->getName()<<"' ";
 //        }
-        cout<<"There are "<<find.size()<<" results, showing the first"<<endl;
-        cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
+
         int i = 0;
         if(find.size() == 1) {
             cout<<"There is only one result matching your search, displaying now"<<endl;
             find[0]->printRecipe();
             return;
+        } else {
+            cout<<"There are "<<find.size()<<" results, showing the first"<<endl;
+            //cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
+        }
+        while (i < find.size()) {
+            find[i]->printRecipe();
+            cout<<"Would you like to view another recipe?"<<endl;
+            cout<<"1 = Another\t 2 = No";
+            string viewAnother;
+            cin>>viewAnother;
+            if(viewAnother != "1") {
+                cout<<"Okay, no more recipes"<<endl;
+                break;
+            }
+        }
+    } else {
+        cout<<"Recipe not found, unfortunately :("<<endl;
+    }
+}
+
+void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& HeapN) {
+    string searchKey;
+    cout<<"Enter the ingredients you wish to search for, and type -1 to indicate you are done"<<endl;
+    vector<string> ingredientsSearch;
+    while(true) {
+        cin>>searchKey;
+        transform(searchKey.begin(), searchKey.end(), searchKey.begin(), ::tolower);
+        if(searchKey == "-1") {
+            break;
+        } else {
+            ingredientsSearch.push_back(searchKey);
+        }
+    }
+    std::sort(ingredientsSearch.begin(), ingredientsSearch.end());
+    time_point<system_clock> start, end;
+    start = system_clock::now();
+    vector<Recipe*> find;
+    BTree.RecipeSearch(ingredientsSearch,find);
+    end = system_clock::now();
+    auto ms = duration_cast<timeUnit>(end-start);
+    cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
+//    start = system_clock::now();
+//    vector<Recipe*> nameHeap = HeapN.searchName(searchKey);
+//    end = system_clock::now();
+//    ms = duration_cast<timeUnit>(end-start);
+//    cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
+    if(!find.empty()) {
+//        cout<< "Recipe found: "<<endl;
+//        cout<<find.size()<<" results"<<endl;
+//        for(auto & i : find) {
+//            cout<<"'"<<i->getName()<<"' ";
+//        }
+//        cout<<endl;
+//        cout<<endl;
+//        cout<<nameHeap.size()<<" results"<<endl;
+//        for(auto & i : nameHeap) {
+//            cout<<"'"<<i->getName()<<"' ";
+//        }
+
+        int i = 0;
+        if(find.size() == 1) {
+            cout<<"There is only one result matching your search, displaying now"<<endl;
+            find[0]->printRecipe();
+            return;
+        } else {
+            cout<<"There are "<<find.size()<<" results, showing the first"<<endl;
+            //cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
         }
         while (i < find.size()) {
             find[i]->printRecipe();
@@ -256,9 +322,14 @@ int main() {
             break;
         } else if(option == "3"){
             Option3(BTreeN, HeapN);
-        } else {
+
+        } else if(option == "4"){
+            Option4(BTreeN, HeapN);
+
+        }else {
             cout<<"Unrecognized command"<<endl;
         }
+        cout << endl;
         cout << "1 = Calorie Search" << endl;
         cout << "2 = Time Search" << endl;
         cout << "3 = Name Search" << endl;

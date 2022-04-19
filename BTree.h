@@ -29,6 +29,7 @@ class BTree //Class definition B Tree
         void inorderTraversal(queue<type>& q); //Traverses the entire tree and pushes into a queue
         void revorderTraversal(stack<type>& s); //Traverses entire tree and pushes into a stack
         void find(string val, vector<Recipe*>& r); //Searches for a given string (name) within the tree, DO NOT USE IF TEMPLATE TYPE IS NOT PAIR<STRING,RECIPE*>
+        void RecipeSearch(vector<string>& ingredients, vector<Recipe*>& recipes);
     };
     int totalKeys = 0; //number of keys in the tree
 public:
@@ -38,6 +39,7 @@ public:
     void search(string val, vector<Recipe*>& r); //Search for all keys containing val
     void insert(type val); //Insert value into tree
     NodeB* root = nullptr; //Root Node Pointer
+    void RecipeSearch(vector<string>& ingredients, vector<Recipe*>& recipes);
 };
 
 template<typename type>
@@ -167,6 +169,23 @@ void BTree<type>::NodeB::find(string val, vector<Recipe*>& r) {
     }
 }
 
+template<typename type>
+void BTree<type>::NodeB::RecipeSearch(vector<string>& ingredients, vector<Recipe *>& recipes) {
+    for (int i = 0; i < keyIndex; i++)
+    {
+        if (!isLeaf) {
+            nodeChildren[i]->RecipeSearch(ingredients,recipes);
+        }
+        vector<string> ingredientsCurr = nodeKeys[i].second->getIngredients();
+        if (std::includes(ingredientsCurr.begin(), ingredientsCurr.end(), ingredients.begin(),ingredients.end())) {
+            recipes.push_back(nodeKeys[i].second);
+        }
+    }
+    if (!isLeaf) {
+        nodeChildren[keyIndex]->RecipeSearch(ingredients,recipes);
+    }
+}
+
 
 template<typename type>
 void BTree<type>::insert(type val) {
@@ -228,6 +247,13 @@ template<typename type>
 int BTree<type>::getTotalKeys() {
     return totalKeys;
     //Return total keys
+}
+
+template<typename type>
+void BTree<type>::RecipeSearch(vector<string>& ingredients, vector<Recipe *>& recipes) {
+    if(root != nullptr) {
+        root->RecipeSearch(ingredients,recipes);
+    }
 }
 
 #endif //PROJECT3_BTREE_H

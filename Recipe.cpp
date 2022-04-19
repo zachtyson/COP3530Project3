@@ -3,6 +3,7 @@
 //
 
 #include "Recipe.h"
+#include <algorithm>
 
 Recipe::Recipe(string curr) {
     auto s = curr.find(',');
@@ -88,6 +89,7 @@ void Recipe::setIngredients(string ingredients) {
             s.push_back(ingredient);
         }
     }
+    std::sort(ingredientsList.begin(), ingredientsList.end());
     numIngredients = ingredientsList.size();
 }
 
