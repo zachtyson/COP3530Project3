@@ -38,11 +38,11 @@ void Recipe::printRecipe() {
     cout<<"\tTotal Fat: "<<nutrientsList[2]<<"% DV";
     cout<<"\tSodium: "<<nutrientsList[3]<<"% DV";
     cout<<"\tProtein: "<<nutrientsList[4]<<"% DV";
-    cout<<"\nSaturated Fat: "<<nutrientsList[5]<<"% DV";
+    cout<<"\n\tSaturated Fat: "<<nutrientsList[5]<<"% DV";
     cout<<"\tCarbohydrates: "<<nutrientsList[6]<<"% DV";
     cout<<"\nIngredients:";
     for(auto & i : ingredientsList) {
-        cout<<" "<<i<<",";
+        cout<<" '"<<i<<"'";
     }
     cout<<endl;
 }
