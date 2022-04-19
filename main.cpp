@@ -10,6 +10,16 @@
 #define timeUnit std::chrono::milliseconds
 using namespace std;
 using namespace std::chrono;
+
+void exitProgram(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTreeT, BTree<pair<float, Recipe*>>& BTreeC,BTree<pair<string, Recipe*>>& BTreeN) {
+    BTreeN.exit();
+    BTreeC.exit();
+    BTreeT.exit();
+    for(auto & recipe : recipes) {
+        delete recipe;
+    }
+}
+
 void parseData(vector<Recipe *>& recipes, string fileName) {
     ifstream input(fileName, ios::in);
     string curr;
@@ -327,7 +337,7 @@ int main() {
         cout << "4 = Ingredient Search" << endl;
         cout << "-1 = Exit" << endl;
     }
-
+    exitProgram(recipes,BTreeC,BTreeT, BTreeN); //Clears heap
     //Heap.printTop();
     //BTree.inorder();
 }
