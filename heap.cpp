@@ -3,6 +3,7 @@
 #include <string>
 #include <iterator>
 #include <math.h>
+#include <stack>
 #include "Recipe.h"
 using namespace std;  
 
@@ -76,6 +77,22 @@ class minHeap
         Heap.pop_back();
         minHeapifyCal(0);
         size--;
+    }
+
+    vector<Recipe*> makeMaxHeap(vector<Recipe*> Heap)
+    {
+        stack<Recipe*> maxHeap;
+        for(int i = 0; i < Heap.size(); i++)
+        {
+            maxHeap.push(Heap[i]);
+        }
+        vector<Recipe*> max;
+        while(maxHeap.empty() == false)
+        {
+            max.push(maxHeap.top());
+            maxHeap.pop();
+        }
+        return max;
     }
 
     private:
