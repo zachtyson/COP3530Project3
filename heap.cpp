@@ -25,7 +25,13 @@ class minHeap
     int getSize() {
         return size;
     }
-    void searchName(string name) { // Added signature for search by name to heap
+    vector<Recipe*> searchName(string name) { // Added signature for search by name to heap
+        vector<Recipe*> littleGuy;
+        for (int i = 0; i < size; i++) {
+            if (Heap[i]->getName().compare(name) == 0) {
+                littleGuy.push_back(Heap[i]);
+            }
+        }
 
     }
 
@@ -169,6 +175,25 @@ class minHeap
                 {
                     swap(position, RightC(position));
                     minHeapifyTime(RightC(position));
+                }
+            }
+        }
+    }
+    void minHeapifyName(int position) //make this based on cookingTime/numIngredients e.g Heap[position].cookingTime
+    {
+        if(leaf(position == false))
+        {
+            if(Heap[position]->getName() > Heap[leftC(position)]->getName() || Heap[position]->getName() > Heap[RightC(position)]->getName())
+            {
+                if(Heap[leftC(position)]->getName() < Heap[RightC(position)]->getName())
+                {
+                    swap(position, leftC(position));
+                    minHeapifyName(leftC(position));
+                }
+                else
+                {
+                    swap(position, RightC(position));
+                    minHeapifyName(RightC(position));
                 }
             }
         }
