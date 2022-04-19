@@ -158,8 +158,8 @@ void BTree<type>::NodeB::find(string val, vector<Recipe*>& r) {
         if (!isLeaf) {
             nodeChildren[i]->find(val,r);
         }
-        if (nodeKeys[i].first.find(val) != string::npos) {
-            return r.push_back(nodeKeys[i].second);
+        if (nodeKeys[i].second->getName().find(val) != string::npos) {
+            r.push_back(nodeKeys[i].second);
         }
     }
     if (!isLeaf) {

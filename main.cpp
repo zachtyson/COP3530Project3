@@ -210,9 +210,25 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
     cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
+    start = system_clock::now();
+    vector<Recipe*> nameHeap = Heap.searchName(searchKey);
+    end = system_clock::now();
+    ms = duration_cast<timeUnit>(end-start);
+    cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
     if(!find.empty()) {
         cout<< "Recipe found: "<<endl;
         cout<<find.size()<<" results"<<endl;
+        std::sort(find.begin(), find.end());
+        for(int i = 0 ; i < find.size(); i++) {
+            cout<<"'"<<find[i]->getName()<<"' ";
+        }
+        cout<<endl;
+        cout<<endl;
+        cout<<nameHeap.size()<<" results"<<endl;
+        std::sort(nameHeap.begin(), nameHeap.end());
+        for(int i = 0 ; i < nameHeap.size(); i++) {
+            cout<<"'"<<nameHeap[i]->getName()<<"' ";
+        }
     } else {
         cout<<"Recipe not found, unfortunately :("<<endl;
     }
@@ -235,6 +251,7 @@ int main() {
     BTree<pair<float, Recipe*>> BTreeC;
     bool initializedN = false;
     BTree<pair<string, Recipe*>> BTreeN;
+    minHeap HeapN = minHeap(recipes.size());
     string calTimeChoice;
     while (true) {
         string option;
