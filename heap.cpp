@@ -17,7 +17,7 @@ class minHeap
     int cap;
 
     public:
-    minHeap(int cap) //cookingTime
+    minHeap(int cap) //creates a minHeap vector wuth an initial size of 0 and a max size of all the recipes in the data base
     {
         this->cap = cap;
         this->size = 0;
