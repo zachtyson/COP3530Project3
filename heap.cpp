@@ -8,7 +8,6 @@
 using namespace std;  
 
 //Heap structure and associated functions.
-//checking commit
 class minHeap
 {
     private:
