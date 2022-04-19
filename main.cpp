@@ -5,6 +5,9 @@
 #include <vector>
 #include <fstream>
 #include <chrono>
+
+#define timeUnitName " microseconds"
+#define timeUnit std::chrono::microseconds
 using namespace std;
 using namespace std::chrono;
 void parseData(vector<Recipe *>& recipes, string fileName) {
@@ -24,16 +27,16 @@ void calorieRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTre
         Heap.insertCal(recipe);
     }
     end = system_clock::now();
-    auto ms = duration_cast<milliseconds>(end-start);
-    cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+    auto ms = duration_cast<timeUnit>(end-start);
+    cout<<"Heap Constructed in: "<<ms.count()<<timeUnitName<<endl;
 
     start = system_clock::now();
     for(auto & recipe : recipes) {
         BTree.insert(make_pair(recipe->getNutrients()[0],recipe));
     }
     end = system_clock::now();
-    ms = duration_cast<milliseconds>(end-start);
-    cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+    ms = duration_cast<timeUnit>(end-start);
+    cout<<"BTree Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
 void nameRecipes(vector<Recipe *>& recipes, BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
@@ -67,16 +70,16 @@ void timeRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree,m
         Heap.insertTime(recipe);
     }
     end = system_clock::now();
-    auto ms = duration_cast<milliseconds>(end-start);
-    cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+    auto ms = duration_cast<timeUnit>(end-start);
+    cout<<"Heap Constructed in: "<<ms.count()<<timeUnitName<<endl;
 
     start = system_clock::now();
     for(auto & recipe : recipes) {
         BTree.insert(make_pair(recipe->getTime(),recipe));
     }
     end = system_clock::now();
-    ms = duration_cast<milliseconds>(end-start);
-    cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+    ms = duration_cast<timeUnit>(end-start);
+    cout<<"BTree Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
 void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTimeChoice) {
@@ -143,8 +146,8 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
             }
         }
         end = system_clock::now();
-        auto ms = duration_cast<milliseconds>(end-start);
-        cout<<"Descending constructed in "<<ms.count()<<"ms"<<endl;
+        auto ms = duration_cast<timeUnit>(end-start);
+        cout<<"Descending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!q.empty()) {
             q.front().second->printRecipe();
             q.pop();
@@ -174,8 +177,8 @@ void Option1or2(minHeap& Heap, BTree<pair<float, Recipe*>>& BTree, string calTim
             }
         }
         end = system_clock::now();
-        auto ms = duration_cast<milliseconds>(end-start);
-        cout<<"Descending constructed in "<<ms.count()<<"ms"<<endl;
+        auto ms = duration_cast<timeUnit>(end-start);
+        cout<<"Descending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!s.empty()) {
             s.top().second->printRecipe();
             s.pop();
@@ -200,13 +203,18 @@ void Option3(BTree<pair<string, Recipe*>>& BTree, minHeap& Heap) {
     cout<<"Enter the name of the food you are trying to search"<<endl;
     cin>>searchKey;
     transform(searchKey.begin(), searchKey.end(), searchKey.begin(), ::tolower);
-    if(BTree.search(searchKey) != nullptr) {
+    time_point<system_clock> start, end;
+    start = system_clock::now();
+    Recipe* find = BTree.search(searchKey);
+    end = system_clock::now();
+    auto ms = duration_cast<timeUnit>(end-start);
+    cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
+    if(find != nullptr) {
         cout<< "Recipe found: "<<endl;
-        BTree.search(searchKey)->printRecipe();
+        find->printRecipe();
     } else {
         cout<<"Recipe not found, unfortunately :("<<endl;
     }
-
 }
 
 int main() {
