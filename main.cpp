@@ -19,14 +19,59 @@ bool number(const string& string)
     return true;
 }
 
-int main() {
-    ifstream input("RecipeDataset.csv", ios::in);
+void parseData(vector<Recipe *>& recipes, string fileName) {
+    ifstream input(fileName, ios::in);
     string curr;
     getline(input, curr);
-    vector<Recipe *> recipes;
     while (getline(input, curr)) {
         recipes.push_back(new Recipe(curr));
     }
+}
+
+void calorieRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree, minHeap& Heap) {
+    time_point<system_clock> start, end;
+    start = system_clock::now();
+    for(int i = 0; i < recipes.size(); i++)
+    {
+        Heap.insertCal(recipes[i]);
+    }
+    end = system_clock::now();
+    auto ms = duration_cast<milliseconds>(end-start);
+    cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+
+    start = system_clock::now();
+    for(auto & recipe : recipes) {
+        BTree.insert(make_pair(recipe->getNutrients()[0],recipe));
+    }
+    end = system_clock::now();
+    ms = duration_cast<milliseconds>(end-start);
+    cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+}
+
+void timeRecipes(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTree,minHeap& Heap ) {
+    time_point<system_clock> start, end;
+    //minHeap Heap = minHeap(recipes.size());
+    start = system_clock::now();
+    for(int i = 0; i < recipes.size(); i++)
+    {
+        Heap.insertTime(recipes[i]);
+    }
+    end = system_clock::now();
+    auto ms = duration_cast<milliseconds>(end-start);
+    cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
+
+    start = system_clock::now();
+    for(auto & recipe : recipes) {
+        BTree.insert(make_pair(recipe->getTime(),recipe));
+    }
+    end = system_clock::now();
+    ms = duration_cast<milliseconds>(end-start);
+    cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+}
+
+int main() {
+    vector<Recipe *> recipes;
+    parseData(recipes,"RecipeDataset.csv");
     cout << "Welcome to Cooking by the Book!" << endl;
     cout << "We have over 200,000 recipes are our disposal, fit for your needs! What are you looking for today?" << endl;
     cout << "Enter in 1 if you would like to: Get a list of the fastest recipes to cook!" << endl;
@@ -49,50 +94,18 @@ int main() {
     }
     minHeap Heap = minHeap(recipes.size());
     BTree<pair<float, Recipe*>> BTree;
-    time_point<system_clock> start, end;
     string calTimeChoice;
     if(option == "1")
     {
         calTimeChoice = "minutes";
-        //minHeap Heap = minHeap(recipes.size());
-        start = system_clock::now();
-        for(int i = 0; i < recipes.size(); i++)
-        {
-            Heap.insertTime(recipes[i]);
-        }
-        end = system_clock::now();
-        auto ms = duration_cast<milliseconds>(end-start);
-        cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
-
-        start = system_clock::now();
-        for(auto & recipe : recipes) {
-            BTree.insert(make_pair(recipe->getTime(),recipe));
-        }
-        end = system_clock::now();
-        ms = duration_cast<milliseconds>(end-start);
-        cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+        timeRecipes(recipes,BTree,Heap);
 
     }
     else
     {
         //minHeap Heap = minHeap(recipes.size());
         calTimeChoice = "calories";
-        start = system_clock::now();
-        for(int i = 0; i < recipes.size(); i++)
-        {
-            Heap.insertCal(recipes[i]);
-        }
-        end = system_clock::now();
-        auto ms = duration_cast<milliseconds>(end-start);
-        cout<<"Heap Constructed in: "<<ms.count()<<"ms"<<endl;
-
-        start = system_clock::now();
-        for(auto & recipe : recipes) {
-            BTree.insert(make_pair(recipe->getNutrients()[0],recipe));
-        }
-        end = system_clock::now();
-        ms = duration_cast<milliseconds>(end-start);
-        cout<<"BTree Constructed in: "<<ms.count()<<"ms"<<endl;
+        calorieRecipes(recipes, BTree, Heap);
     }
     int order;
     string userInput;
@@ -183,8 +196,7 @@ int main() {
             s.pop();
             cout<<endl;
             cout<<"Would you like to view another recipe?"<<endl;
-            cout<<"1: Yes";
-            cout<<"\t2: No"<<endl;
+            cout<<"1: Yes\t2: No\"";
             string viewAnother;
             cin>>viewAnother;
             if(viewAnother != "1") {
