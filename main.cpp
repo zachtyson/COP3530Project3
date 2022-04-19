@@ -158,18 +158,6 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     ms = duration_cast<timeUnit>(end-start);
     cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
     if(!find.empty()) {
-//        cout<< "Recipe found: "<<endl;
-//        cout<<find.size()<<" results"<<endl;
-//        for(auto & i : find) {
-//            cout<<"'"<<i->getName()<<"' ";
-//        }
-//        cout<<endl;
-//        cout<<endl;
-//        cout<<nameHeap.size()<<" results"<<endl;
-//        for(auto & i : nameHeap) {
-//            cout<<"'"<<i->getName()<<"' ";
-//        }
-
         int i = 0;
         if(find.size() == 1) {
             cout<<"There is only one result matching your search, displaying now"<<endl;
@@ -181,14 +169,20 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
         }
         while (i < find.size()) {
             find[i]->printRecipe();
-            cout<<"Would you like to view another recipe?"<<endl;
-            cout<<"1 = Another\t 2 = No";
-            string viewAnother;
-            cin>>viewAnother;
-            if(viewAnother != "1") {
-                cout<<"Okay, no more recipes"<<endl;
-                break;
+            i++;
+            if( i < find.size() ) {
+                cout<<"Would you like to view another recipe?"<<endl;
+                cout<<"1 = Another\t 2 = No";
+                string viewAnother;
+                cin>>viewAnother;
+                if(viewAnother != "1") {
+                    cout<<"Okay, no more recipes"<<endl;
+                    break;
+                }
+            } else {
+                cout<<"No more recipes remaining, returning to main menu"<<endl;
             }
+
         }
     } else {
         cout<<"Recipe not found, unfortunately :("<<endl;
@@ -210,48 +204,43 @@ void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     }
     std::sort(ingredientsSearch.begin(), ingredientsSearch.end());
     time_point<system_clock> start, end;
-    start = system_clock::now();
     vector<Recipe*> find;
+    start = system_clock::now();
     BTree.RecipeSearch(ingredientsSearch,find);
     end = system_clock::now();
     auto ms = duration_cast<timeUnit>(end-start);
     cout<<"BTree searched in: "<<ms.count()<<timeUnitName<<endl;
-//    start = system_clock::now();
-//    vector<Recipe*> nameHeap = HeapN.searchName(searchKey);
-//    end = system_clock::now();
-//    ms = duration_cast<timeUnit>(end-start);
-//    cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
+    std::sort(ingredientsSearch.begin(), ingredientsSearch.end());
+    start = system_clock::now();
+    vector<Recipe*> nameHeap;
+    HeapN.searchIngredient(ingredientsSearch,nameHeap);
+    end = system_clock::now();
+    ms = duration_cast<timeUnit>(end-start);
+    cout<<"Heap searched in: "<<ms.count()<<timeUnitName<<endl;
     if(!find.empty()) {
-//        cout<< "Recipe found: "<<endl;
-//        cout<<find.size()<<" results"<<endl;
-//        for(auto & i : find) {
-//            cout<<"'"<<i->getName()<<"' ";
-//        }
-//        cout<<endl;
-//        cout<<endl;
-//        cout<<nameHeap.size()<<" results"<<endl;
-//        for(auto & i : nameHeap) {
-//            cout<<"'"<<i->getName()<<"' ";
-//        }
-
         int i = 0;
         if(find.size() == 1) {
             cout<<"There is only one result matching your search, displaying now"<<endl;
             find[0]->printRecipe();
             return;
         } else {
-            cout<<"There are "<<find.size()<<" results, showing the first"<<endl;
-            //cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
+            cout<<"There are "<<find.size()<<" results matching your , showing the first"<<endl;
+            //cout<<"There are "<<nameHeap.size()<<" results matching your , showing the first"<<endl;
         }
         while (i < find.size()) {
             find[i]->printRecipe();
-            cout<<"Would you like to view another recipe?"<<endl;
-            cout<<"1 = Another\t 2 = No";
-            string viewAnother;
-            cin>>viewAnother;
-            if(viewAnother != "1") {
-                cout<<"Okay, no more recipes"<<endl;
-                break;
+            i++;
+            if( i < find.size() ) {
+                cout<<"Would you like to view another recipe?"<<endl;
+                cout<<"1 = Another\t 2 = No";
+                string viewAnother;
+                cin>>viewAnother;
+                if(viewAnother != "1") {
+                    cout<<"Okay, no more recipes"<<endl;
+                    break;
+                }
+            } else {
+                cout<<"No more recipes remaining, returning to main menu"<<endl;
             }
         }
     } else {
@@ -295,6 +284,8 @@ int main() {
     cout << "Enter in 1 if you would like to: Get a list of the fastest recipes to cook!" << endl;
     cout << "Enter in 2 if you would like to: Get a list of the healthiest recipes to cook!" << endl;
     cout << "Enter in 3 if you would like to: Search for a recipe" << endl;
+    cout << "Enter in 4 if you would like to: Search for recipes using ingredients" << endl;
+    cout << "Enter in -1 if you would like to: Exit" << endl;
 
     minHeap<pair<float,Recipe*>> HeapT = minHeap<pair<float,Recipe*>>(recipes.size());
     minHeap<pair<float, Recipe*>> HeapC = minHeap<pair<float,Recipe*>>(recipes.size());
@@ -333,6 +324,7 @@ int main() {
         cout << "1 = Calorie Search" << endl;
         cout << "2 = Time Search" << endl;
         cout << "3 = Name Search" << endl;
+        cout << "4 = Ingredient Search" << endl;
         cout << "-1 = Exit" << endl;
     }
 

@@ -26,6 +26,7 @@ class minHeap
     void printTop();
     void remove();
     vector<type> makeMaxHeap(vector<type> Heap); //uses stack to turn minHeap into maxHeap
+    void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes);
 private:
     bool leaf(int position);
     int parent(int position);
@@ -162,6 +163,16 @@ void minHeap<type>::minHeapify(int position) {
                 swap(position, RightC(position));
                 minHeapifyTime(RightC(position));
             }
+        }
+    }
+}
+
+template<typename type>
+void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe *> &recipes) {
+    for(int i = 0; i < size; i++) {
+        vector<string> ingredientsCurr = Heap[i].second->getIngredients();
+        if (std::includes(ingredientsCurr.begin(), ingredientsCurr.end(), ingredients.begin(),ingredients.end())) {
+            recipes.push_back(Heap[i].second);
         }
     }
 }
