@@ -45,7 +45,7 @@ class minHeap
         int lastNode = size;
         size++;
 
-        while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) //make this based on cookingTime/numIngredients e.g Heap[lastNode].cookingTime
+        while (Heap[lastNode]->getTime() < Heap[parent(lastNode)]->getTime()) 
         {
             swap(lastNode, parent(lastNode));
             lastNode = parent(lastNode);
