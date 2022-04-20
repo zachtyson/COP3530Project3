@@ -118,6 +118,8 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         
         while(!q.empty()) {
             q.front().second->printRecipe();
+            qHeap.front().second->printRecipe();
+            qHeap.pop();
             q.pop();
             cout<<"Would you like to view another recipe?"<<endl;
             cout<<"1 = Another\t 2 = No";
