@@ -46,6 +46,8 @@ void minHeap<type>::swapLG(int first, int second) {
     littleGuy[second] = temp;
 }
 
+
+
 template <typename type>
 void minHeap<type>::swap(int first, int second) {
     type temp;
