@@ -120,7 +120,7 @@ void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>
 
             }
             q.front().second->printRecipe();
-            //k[i].second->printRecipe();
+            k[i].second->printRecipe();
             i++;
             q.pop();
             cout<<"Would you like to view another recipe?"<<endl;
@@ -155,13 +155,14 @@ void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>
         start = system_clock::now();
         vector<pair<double,Recipe*>> k;
         k = Heap.extract();
-        int i = k.size()-1;
+        std::reverse(k.begin(), k.end());
+        int i = 0;
         if(userOption != -1) {
             while(true) {
                 if(k[i].first < userOption) {
                     break;
                 }
-                i--;
+                i++;
             }
         }
         end = system_clock::now();
@@ -173,8 +174,8 @@ void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>
 
             }
             s.top().second->printRecipe();
-            //k[i].second->printRecipe();
-            i--;
+            k[i].second->printRecipe();
+            i++;
             s.pop();
             cout<<"Would you like to view another recipe?"<<endl;
             cout<<"1 = Another\t 2 = No";
@@ -220,6 +221,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
         }
         while (i < find.size()) {
             find[i]->printRecipe();
+            nameHeap[i]->printRecipe();
             i++;
             if( i < find.size() ) {
                 cout<<"Would you like to view another recipe?"<<endl;
@@ -371,8 +373,8 @@ int main() {
             cout<<"Unrecognized command"<<endl;
         }
         cout << endl;
-        cout << "1 = Calorie Search" << endl;
-        cout << "2 = Time Search" << endl;
+        cout << "1 = Time Search" << endl;
+        cout << "2 = Calorie Search" << endl;
         cout << "3 = Name Search" << endl;
         cout << "4 = Ingredient Search" << endl;
         cout << "-1 = Exit" << endl;

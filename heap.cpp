@@ -112,18 +112,21 @@ void minHeap<type>::printTop() {
 
 template <typename type>
 vector<Recipe *> minHeap<type>::searchName(string name) {
-    for (int i = 0; i < size; i++) {
-        if (Heap[i].first.find(name) != string::npos) {
-            littleGuy.push_back(Heap[i]);
+
+    vector<Recipe*> t;
+    vector<type> k = Heap;
+    while(!k.empty()) {
+        if (k[0].first.find(name) != string::npos) {
+            t.push_back(k[0].second);
         }
+        k[0] = k[k.size() - 1];
+        k.pop_back();
+
+        minHeapify2(k, 0);
+
+
     }
-    sizeLG = 0;
-    vector<Recipe*> copy;
-    for(int i = 0; i < littleGuy.size(); i++) {
-        copy.push_back(littleGuy[i].second);
-    }
-    littleGuy.clear(); //clears the subHeap for when search is called again
-    return copy;
+    return t;
 }
 template <typename type>
 int minHeap<type>::getSize() const {
@@ -182,13 +185,20 @@ void minHeap<type>::minHeapify(int position) {
 }
 
 template<typename type>
-void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe *> &recipes) {
-    for(int i = 0; i < size; i++) {
-        vector<string> ingredientsCurr = Heap[i].second->getIngredients();
+void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe *> &t) {
+    vector<type> k = Heap;
+    while(!k.empty()) {
+        vector<string> ingredientsCurr = k[0].second->getIngredients();
         if (std::includes(ingredientsCurr.begin(), ingredientsCurr.end(), ingredients.begin(),ingredients.end())) {
-            recipes.push_back(Heap[i].second);
+            t.push_back(k[0].second);
         }
+        k[0] = k[k.size()-1];
+        k.pop_back();
+
+        minHeapify2(k,0);
+
     }
+
 }
 
 template <typename type>
