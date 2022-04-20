@@ -15,18 +15,12 @@ class minHeap
     vector<type> Heap;
     vector<type> littleGuy; //sub heap that contains an input string for searching recipes based on name within the primary minHeap
     int size = 0;
-    int sizeLG = 0;
     int cap;
 
     public:
     minHeap(int cap); //creates a minHeap vector with an initial size of 0 and a max size of all the recipes in the data base
-    int getSize() const;
     vector<Recipe*> searchName(string name); // Added signature for search by name to heap
     void insertGen(type recipe);// insert function for minheap sorted alphabetically
-    void printTop();
-    void remove();
-    vector<type>& getHeap();
-    vector<type> makeMaxHeap(vector<type> Heap); //uses stack to turn minHeap into maxHeap
     void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes);
     vector<type> extract();
 private:
@@ -34,30 +28,11 @@ private:
     int parent(int position);
     int leftC(int position);
     int RightC(int position);
-    void swap(int first, int second);
-    void swapLG(int first, int second);
-    void minHeapify(int position);
     void minHeapify2(vector<type>& h, int i);
 };
 
 
-template <typename type>
-void minHeap<type>::swapLG(int first, int second) {
-    type temp;
-    temp  = littleGuy[first];
-    littleGuy[first] = littleGuy[second];
-    littleGuy[second] = temp;
-}
 
-
-
-template <typename type>
-void minHeap<type>::swap(int first, int second) {
-    type temp;
-    temp  = Heap[first];
-    Heap[first] = Heap[second];
-    Heap[second] = temp;
-}
 
 template <typename type>
 int minHeap<type>::RightC(int position) {
@@ -80,35 +55,9 @@ bool minHeap<type>::leaf(int position) {
     }
     return false;
 }
-template <typename type>
-vector<type> minHeap<type>::makeMaxHeap(vector<type> Heap) {
-    stack<type> maxHeap;
-    for(auto & i : Heap)
-    {
-        maxHeap.push(i);
-    }
-    vector<type> max;
-    while(!maxHeap.empty())
-    {
-        max.push_back(maxHeap.top());
-        maxHeap.pop();
-    }
-    return max;
-}
 
 
-template <typename type>
-void minHeap<type>::remove() {
-    Heap[0] = Heap[size - 1];
-    Heap.pop_back();
-    minHeapify(0);
-    size--;
-}
 
-template <typename type>
-void minHeap<type>::printTop() {
-    Heap[0].second->printRecipe();
-}
 
 template <typename type>
 vector<Recipe *> minHeap<type>::searchName(string name) {
@@ -117,7 +66,6 @@ vector<Recipe *> minHeap<type>::searchName(string name) {
             littleGuy.push_back(Heap[i]);
         }
     }
-    sizeLG = 0;
     vector<Recipe*> copy;
     for(int i = 0; i < littleGuy.size(); i++) {
         copy.push_back(littleGuy[i].second);
@@ -126,14 +74,9 @@ vector<Recipe *> minHeap<type>::searchName(string name) {
     return copy;
 }
 template <typename type>
-int minHeap<type>::getSize() const {
-    return size;
-}
-template <typename type>
 minHeap<type>::minHeap(int _cap) {
     cap = _cap;
     size = 0;
-    sizeLG = 0;
 }
 
 template<typename type>
@@ -151,34 +94,7 @@ void minHeap<type>::insertGen(type recipe) {
         Heap[parent(lastNode)] = t;
         lastNode = parent(lastNode);
     }
-//    for(int i = 0; i < size; i++) {
-//        cout<<size<<" "<<Heap[i].first<<" "<<Heap[i].second->getName()<<endl;
-//    }
 
-}
-
-template<typename type>
-void minHeap<type>::minHeapify(int position) {
-    if(!leaf(position))
-    {
-        if(Heap[position] > Heap[leftC(position)] || Heap[position] > Heap[RightC(position)])
-        {
-            if(Heap[leftC(position)] < Heap[RightC(position)])
-            {
-                type t = Heap[position];
-                Heap[position] = Heap[leftC(position)];
-                Heap[leftC(position)] = t;
-                minHeapify(leftC(position));
-            }
-            else
-            {
-                type t = Heap[position];
-                Heap[position] = Heap[RightC(position)];
-                Heap[RightC(position)] = t;
-                minHeapify(RightC(position));
-            }
-        }
-    }
 }
 
 template<typename type>
@@ -191,10 +107,6 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
     }
 }
 
-template <typename type>
-vector<type>& minHeap<type>::getHeap() {
-    return Heap;
-}
 
 template<typename type>
 vector<type> minHeap<type>::extract() {
