@@ -159,12 +159,12 @@ void minHeap<type>::minHeapify(int position) {
             if(Heap[leftC(position)] < Heap[RightC(position)])
             {
                 swap(position, leftC(position));
-                minHeapifyTime(leftC(position));
+                minHeapify(leftC(position));
             }
             else
             {
                 swap(position, RightC(position));
-                minHeapifyTime(RightC(position));
+                minHeapify(RightC(position));
             }
         }
     }
