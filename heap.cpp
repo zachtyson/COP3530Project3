@@ -25,6 +25,7 @@ class minHeap
     void insertGen(type recipe); // insert function for minheap sorted alphabetically
     void printTop();
     void remove();
+    vector<type> getHeap();
     vector<type> makeMaxHeap(vector<type> Heap); //uses stack to turn minHeap into maxHeap
     void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes);
 private:
@@ -178,4 +179,7 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
         }
     }
 }
-
+template <typename type>
+void minHeap<type>::getHeap() {
+    return Heap;
+}
