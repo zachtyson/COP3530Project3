@@ -76,13 +76,13 @@ bool minHeap<type>::leaf(int position) {
     return false;
 }
 template <typename type>
-vector<type> minHeap<type>::makeMaxHeap(vector<type> Heap) {
+minHeap<pair<float,Recipe*>> minHeap<type>::makeMaxHeap(vector<type> Heap) {
     stack<type> maxHeap;
     for(auto & i : Heap)
     {
         maxHeap.push(i);
     }
-    vector<type> max;
+    minHeap<pair<float,Recipe*>> max;
     while(!maxHeap.empty())
     {
         max.push_back(maxHeap.top());
