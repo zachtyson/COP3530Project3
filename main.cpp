@@ -270,7 +270,7 @@ void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
             find[0]->printRecipe();
             return;
         } else {
-            cout<<"There are "<<find.size()<<" results matching your , showing the first"<<endl;
+            cout<<"There are "<<find.size()<<" results matching your search, showing the first"<<endl;
             //cout<<"There are "<<nameHeap.size()<<" results matching your , showing the first"<<endl;
         }
         while (i < find.size()) {
