@@ -22,10 +22,10 @@ class minHeap
     minHeap(int cap); //creates a minHeap vector with an initial size of 0 and a max size of all the recipes in the data base
     int getSize() const;
     vector<Recipe*> searchName(string name); // Added signature for search by name to heap
-    void insertGen(type recipe); // insert function for minheap sorted alphabetically
+    void insertGen(type recipe);// insert function for minheap sorted alphabetically
     void printTop();
     void remove();
-    vector<type> getHeap();
+    vector<type>& getHeap();
     vector<type> makeMaxHeap(vector<type> Heap); //uses stack to turn minHeap into maxHeap
     void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes);
     vector<type> extract();
@@ -61,11 +61,11 @@ void minHeap<type>::swap(int first, int second) {
 
 template <typename type>
 int minHeap<type>::RightC(int position) {
-    return (2*position)+1;
+    return (2*position)+2;
 }
 template <typename type>
 int minHeap<type>::leftC(int position) {
-    return 2*position;
+    return 2*position+1;
 }
 
 template <typename type>
@@ -144,7 +144,6 @@ void minHeap<type>::insertGen(type recipe) {
     Heap.push_back(recipe);
     int lastNode = size;
     size++;
-
     while (Heap[lastNode] < Heap[parent(lastNode)])
     {
         type t = Heap[lastNode];
@@ -152,6 +151,10 @@ void minHeap<type>::insertGen(type recipe) {
         Heap[parent(lastNode)] = t;
         lastNode = parent(lastNode);
     }
+//    for(int i = 0; i < size; i++) {
+//        cout<<size<<" "<<Heap[i].first<<" "<<Heap[i].second->getName()<<endl;
+//    }
+
 }
 
 template<typename type>
@@ -189,7 +192,7 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
 }
 
 template <typename type>
-vector<type> minHeap<type>::getHeap() {
+vector<type>& minHeap<type>::getHeap() {
     return Heap;
 }
 
@@ -197,36 +200,34 @@ template<typename type>
 vector<type> minHeap<type>::extract() {
     vector<type> t;
     vector<type> k = Heap;
+
     while(!k.empty()) {
         t.push_back(k[0]);
         k[0] = k[k.size()-1];
-        minHeapify2(k,0);
         k.pop_back();
 
+        minHeapify2(k,0);
+
     }
+
     return t;
 }
 
 template<typename type>
 void minHeap<type>::minHeapify2(vector<type>& h, int i) {
-    if(!leaf(i))
-    {
-        if(h[i] > h[leftC(i)] || h[i] > h[RightC(i)])
-        {
-            if(h[leftC(i)] < h[RightC(i)])
-            {
-                type temp = h[i];
-                h[i] = h[leftC(i)];
-                h[leftC(i)] = temp;
-                minHeapify2(h,leftC(i));
-            }
-            else
-            {
-                type temp = h[i];
-                h[i] = h[RightC(i)];
-                h[RightC(i)] = temp;
-                minHeapify2(h,RightC(i));
-            }
-        }
+    int l = leftC(i);
+    int r = RightC(i);
+    int smallest = i;
+    if((l < h.size()) && (h[l] < h[smallest])) {
+        smallest = l;
+    }
+    if((r < h.size()) && (h[r] < h[smallest])) {
+        smallest = r;
+    }
+    if(smallest != i) {
+        type t = h[i];
+        h[i] = h[smallest];
+        h[smallest] = t;
+        minHeapify2(h,smallest);
     }
 }

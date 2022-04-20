@@ -10,7 +10,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void exitProgram(vector<Recipe *>& recipes, BTree<pair<float, Recipe*>>& BTreeT, BTree<pair<float, Recipe*>>& BTreeC,BTree<pair<string, Recipe*>>& BTreeN) {
+void exitProgram(vector<Recipe *>& recipes, BTree<pair<double, Recipe*>>& BTreeT, BTree<pair<double, Recipe*>>& BTreeC,BTree<pair<string, Recipe*>>& BTreeN) {
     BTreeN.exit();
     BTreeC.exit();
     BTreeT.exit();
@@ -33,10 +33,10 @@ void parseData(vector<Recipe *>& recipes, string fileName) {
     cout<<"Data set parsed in : "<<ms.count()<<timeUnitName<<endl;
 }
 
-void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>& BTree, string calTimeChoice) {
+void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>>& BTree, string calTimeChoice) {
     int order;
     string userInput;
-    float userOption;
+    double userOption;
     while (true) {
         cout<<"Would you like to sort ascending or descending?"<<endl;
         cout<<"1: Ascending"<<endl;
@@ -84,7 +84,7 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         cout<<calTimeChoice<<endl;
     }
     if(order == 1) {
-        queue<pair<float, Recipe*>> q;
+        queue<pair<double, Recipe*>> q;
         BTree.inorder(q);
         time_point<system_clock> start, end;
         start = system_clock::now();
@@ -100,7 +100,7 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         auto ms = duration_cast<timeUnit>(end-start);
         cout<<"B-Tree ascending constructed in "<<ms.count()<<timeUnitName<<endl;
         start = system_clock::now();
-        vector<pair<float,Recipe*>> k;
+        vector<pair<double,Recipe*>> k;
         k = Heap.extract();
         int i = 0;
         if(userOption != -1) {
@@ -115,6 +115,10 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap ascending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!q.empty()) {
+            if(k[i].second != q.front().second) {
+                cout<<"Algorithms are not producing same results"<<endl;
+
+            }
             q.front().second->printRecipe();
             //k[i].second->printRecipe();
             i++;
@@ -133,7 +137,7 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         }
     }
     else if(order == 2){
-        stack<pair<float, Recipe*>> s;
+        stack<pair<double, Recipe*>> s;
         BTree.revorder(s);
         time_point<system_clock> start, end;
         start = system_clock::now();
@@ -149,27 +153,28 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         auto ms = duration_cast<timeUnit>(end-start);
         cout<<"B-Tree descending constructed in "<<ms.count()<<timeUnitName<<endl;
         start = system_clock::now();
-        vector<pair<float,Recipe*>> k;
+        vector<pair<double,Recipe*>> k;
         k = Heap.extract();
-        int i = 0;
-//        if(userOption != -1) {
-//            while(true) {
-//                if(k[i].first < userOption) {
-//                    break;
-//                }
-//                i--;
-//            }
-//        }
+        int i = k.size()-1;
+        if(userOption != -1) {
+            while(true) {
+                if(k[i].first < userOption) {
+                    break;
+                }
+                i--;
+            }
+        }
         end = system_clock::now();
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap descending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!s.empty()) {
-            s.top().second->printRecipe();
-            if(k[i].second == nullptr) {
-                cout<<"PROBLEM";
+            if(k[i].second != s.top().second) {
+                cout<<"Algorithms are not producing same results"<<endl;
+
             }
-            k[i].second->printRecipe();
-            i++;
+            s.top().second->printRecipe();
+            //k[i].second->printRecipe();
+            i--;
             s.pop();
             cout<<"Would you like to view another recipe?"<<endl;
             cout<<"1 = Another\t 2 = No";
@@ -294,7 +299,7 @@ void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     }
 }
 
-void constructHeap(vector<Recipe *>& recipes,minHeap<pair<float,Recipe*>>& HeapT, minHeap<pair<float,Recipe*>>& HeapC,minHeap<pair<string,Recipe*>>& HeapN) {
+void constructHeap(vector<Recipe *>& recipes,minHeap<pair<double,Recipe*>>& HeapT, minHeap<pair<double,Recipe*>>& HeapC,minHeap<pair<string,Recipe*>>& HeapN) {
     time_point<system_clock> start, end;
     start = system_clock::now();
     for(auto & recipe : recipes)
@@ -308,7 +313,7 @@ void constructHeap(vector<Recipe *>& recipes,minHeap<pair<float,Recipe*>>& HeapT
     cout<<"Heap Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
-void constructBTree(vector<Recipe *>& recipes,BTree<pair<float, Recipe*>>& BTreeT,BTree<pair<float, Recipe*>>& BTreeC, BTree<pair<string, Recipe*>>& BTreeN) {
+void constructBTree(vector<Recipe *>& recipes,BTree<pair<double, Recipe*>>& BTreeT,BTree<pair<double, Recipe*>>& BTreeC, BTree<pair<string, Recipe*>>& BTreeN) {
     time_point<system_clock> start, end;
     start = system_clock::now();
     for(auto & recipe : recipes) {
@@ -333,15 +338,14 @@ int main() {
     cout << "Enter in -1 if you would like to: Exit" << endl;
     parseData(recipes,"RecipeDataset.csv");
 
-    minHeap<pair<float,Recipe*>> HeapT = minHeap<pair<float,Recipe*>>(recipes.size());
-    minHeap<pair<float, Recipe*>> HeapC = minHeap<pair<float,Recipe*>>(recipes.size());
+    minHeap<pair<double,Recipe*>> HeapT = minHeap<pair<double,Recipe*>>(recipes.size());
+    minHeap<pair<double, Recipe*>> HeapC = minHeap<pair<double,Recipe*>>(recipes.size());
     minHeap<pair<string, Recipe*>> HeapN = minHeap<pair<string,Recipe*>>(recipes.size());
     constructHeap(recipes,HeapT,HeapC, HeapN);
-    BTree<pair<float, Recipe*>> BTreeT;
-    BTree<pair<float, Recipe*>> BTreeC;
+    BTree<pair<double, Recipe*>> BTreeT;
+    BTree<pair<double, Recipe*>> BTreeC;
     BTree<pair<string, Recipe*>> BTreeN;
     constructBTree(recipes,BTreeT,BTreeC,BTreeN);
-
     string calTimeChoice;
     while (true) {
         string option;
@@ -374,6 +378,4 @@ int main() {
         cout << "-1 = Exit" << endl;
     }
     exitProgram(recipes,BTreeC,BTreeT, BTreeN); //Clears heap
-    //Heap.printTop();
-    //BTree.inorder();
 }
