@@ -179,7 +179,8 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
         }
     }
 }
+
 template <typename type>
-void minHeap<type>::getHeap() {
+vector<type> minHeap<type>::getHeap() {
     return Heap;
 }
