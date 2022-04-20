@@ -16,7 +16,6 @@ public:
     void setNutrients(string nutrients);
     void setIngredients(string ingredients);
     void setTags(string tags);
-    void writeToFile(ofstream& s); //Testing purposes only
     string getName() const;
     int getID() const;
     int getTime() const ;
