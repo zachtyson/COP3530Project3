@@ -216,10 +216,11 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
             return;
         } else {
             cout<<"There are "<<find.size()<<" results, showing the first"<<endl;
-            //cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
+            cout<<"There are "<<nameHeap.size()<<" results, showing the first"<<endl;
         }
         while (i < find.size()) {
             find[i]->printRecipe();
+            nameHeap[i]->printRecipe();
             i++;
             if( i < find.size() ) {
                 cout<<"Would you like to view another recipe?"<<endl;

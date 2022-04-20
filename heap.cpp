@@ -29,6 +29,7 @@ private:
     int leftC(int position);
     int RightC(int position);
     void minHeapify2(vector<type>& h, int i);
+    void minHeapify3(vector<type>& h, int i);
 };
 
 
@@ -57,21 +58,21 @@ bool minHeap<type>::leaf(int position) {
 }
 
 
-
-
 template <typename type>
 vector<Recipe *> minHeap<type>::searchName(string name) {
-    for (int i = 0; i < size; i++) {
-        if (Heap[i].first.find(name) != string::npos) {
-            littleGuy.push_back(Heap[i]);
+    vector<Recipe*> t;
+    vector<type> k = Heap;
+    while(!k.empty()) {
+        if (k[0].first.find(name) != string::npos) {
+            t.push_back(k[0].second);
         }
+        k[0] = k[k.size()-1];
+        k.pop_back();
+
+        minHeapify3(k,0);
+
     }
-    vector<Recipe*> copy;
-    for(int i = 0; i < littleGuy.size(); i++) {
-        copy.push_back(littleGuy[i].second);
-    }
-    littleGuy.clear(); //clears the subHeap for when search is called again
-    return copy;
+    return t;
 }
 template <typename type>
 minHeap<type>::minHeap(int _cap) {
@@ -112,18 +113,34 @@ template<typename type>
 vector<type> minHeap<type>::extract() {
     vector<type> t;
     vector<type> k = Heap;
-
     while(!k.empty()) {
         t.push_back(k[0]);
         k[0] = k[k.size()-1];
         k.pop_back();
-
         minHeapify2(k,0);
-
     }
-
     return t;
 }
+
+template<typename type>
+void minHeap<type>::minHeapify3(vector<type>& h, int i) {
+    int l = leftC(i);
+    int r = RightC(i);
+    int smallest = i;
+    if((l < h.size()) && (h[l].first < h[smallest].first)) {
+        smallest = l;
+    }
+    if((r < h.size()) && (h[r].first < h[smallest].first)) {
+        smallest = r;
+    }
+    if(smallest != i) {
+        type t = h[i];
+        h[i] = h[smallest];
+        h[smallest] = t;
+        minHeapify3(h,smallest);
+    }
+}
+
 
 template<typename type>
 void minHeap<type>::minHeapify2(vector<type>& h, int i) {
