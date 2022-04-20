@@ -7,19 +7,19 @@
 
 Recipe::Recipe(string curr) {
     auto s = curr.find(',');
-    name = curr.substr(0,s);
+    name = curr.substr(0,s); //Grabs name
     curr = curr.substr(s+1,curr.length());
     s = curr.find(',');
-    ID = stoi(curr.substr(0,s));
+    ID = stoi(curr.substr(0,s)); //Grabs ID (unused)
     curr = curr.substr(s+1,curr.length());
     s = curr.find(',');
-    time = stoi(curr.substr(0,s));
+    time = stoi(curr.substr(0,s)); //Grabs time (minutes)
     curr = curr.substr(s+3, curr.length());
     s = curr.find(']');
-    string tags = curr.substr(0,s);
+    string tags = curr.substr(0,s); //Grabs tags (unused)
     curr = curr.substr(s+5, curr.length());
     s = curr.find(']');
-    string nutrients = curr.substr(0,s);
+    string nutrients = curr.substr(0,s); //Grabs nutrients
     curr = curr.substr(s+3,curr.length());
     setNutrients(nutrients);
     setIngredients(curr);
@@ -50,34 +50,24 @@ void Recipe::printRecipe() {
 }
 
 void Recipe::setNutrients(string nutrients) {
-    auto s = nutrients.find(',');
     string k = nutrients;
-    nutrientsList.push_back(stof(k.substr(0,s)));
-    k = k.substr(s+1,k.length());
-    s = k.find(',');
-    nutrientsList.push_back(stof(k.substr(0,s)));
-    k = k.substr(s+1,k.length());
-    s = k.find(',');
-    nutrientsList.push_back(stof(k.substr(0,s)));
-    k = k.substr(s+1,k.length());
-    s = k.find(',');
-    nutrientsList.push_back(stof(k.substr(0,s)));
-    k = k.substr(s+1,k.length());
-    s = k.find(',');
-    nutrientsList.push_back(stof(k.substr(0,s)));
-    k = k.substr(s+1,k.length());
-    s = k.find(',');
-    nutrientsList.push_back(stof(k.substr(0,s)));
-    k = k.substr(s+1,k.length());
-    s = k.find(',');
-    nutrientsList.push_back(stof(k.substr(0,s)));
+    auto s = nutrients.find(',');
+    //Iterates over entire string searching for commas
+    for(int i = 0; i < 7; i++){
+        s = k.find(',');
+        nutrientsList.push_back(stof(k.substr(0,s)));
+        k = k.substr(s+1,k.length());
+    }
 }
 
 void Recipe::setIngredients(string ingredients) {
-    string k = ingredients;
+    //Iterates over entire string to find all ingredients
+    //Honestly looks like black magic
+    //O(l) time with l = length
     string s;
     bool state = false;
-    for(char ingredient : ingredients) {
+    for(char ingredient : ingredients) { //Once it finds a ' it adds everything after it to string s until it finds another '
+        //Once it finds another ' it pushes the string to the vector
         if(ingredient == '\'') {
             if(state) {
                 ingredientsList.push_back(s);
@@ -98,16 +88,16 @@ string Recipe::getName() const{
     return name;
 }
 
-int Recipe::getID() const {
-    return ID;
+__attribute__((unused)) int Recipe::getID() const {
+    return ID; //unused
 }
 
 int Recipe::getTime() const {
     return time;
 }
 
-vector<string> Recipe::getTags() const {
-    return tagsList;
+__attribute__((unused)) vector<string> Recipe::getTags() const {
+    return tagsList; //unused
 }
 
 vector<float> Recipe::getNutrients() const {
@@ -122,6 +112,9 @@ void Recipe::setTags(string tags) {
     string k = tags;
     string s;
     bool state = false;
+    //Iterates over entire string to find all tags
+    //Honestly looks like black magic
+    //O(l) time with l = length
     for(char tag : tags) {
         if(tag == '\'') {
             if(state) {
@@ -139,6 +132,8 @@ void Recipe::setTags(string tags) {
 }
 
 bool operator==(const Recipe &recipe1, const Recipe &recipe2) {
+    //Compares all attributes
+    //This should always return false since there are no duplicate names in the dataset
     if(recipe1.name != recipe2.name) {
         return false;
     }
@@ -157,6 +152,8 @@ bool operator==(const Recipe &recipe1, const Recipe &recipe2) {
 }
 
 bool operator!=(const Recipe &recipe1, const Recipe &recipe2) {
+    //Compares all attributes
+    //This should always return true since there are no duplicate names in the dataset
     if(recipe1.name != recipe2.name) {
         return true;
     }
@@ -174,10 +171,9 @@ bool operator!=(const Recipe &recipe1, const Recipe &recipe2) {
 
 bool operator<(const Recipe &recipe1, const Recipe &recipe2) {
     return recipe1.name < recipe2.name;
-    //Compares the string values of each name, might be used by B Tree
+    //Compares the string values of each name, used by heap/btree
 }
 
 bool operator>(const Recipe &recipe1, const Recipe &recipe2) {
     return recipe1.name > recipe2.name;
-    //All four of these operator overloaded functions might be unused, added just in case
 }

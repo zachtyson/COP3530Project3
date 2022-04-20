@@ -17,9 +17,9 @@ public:
     void setIngredients(string ingredients);
     void setTags(string tags);
     string getName() const;
-    int getID() const;
+    __attribute__((unused)) int getID() const;
     int getTime() const ;
-    vector<string> getTags() const;
+    __attribute__((unused)) vector<string> getTags() const;
     vector<float> getNutrients() const;
     vector<string> getIngredients()const;
     friend bool operator==(const Recipe& recipe1, const Recipe& recipe2);
