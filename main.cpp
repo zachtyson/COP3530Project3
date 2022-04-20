@@ -4,6 +4,7 @@
 #include "heap.cpp"
 #include <vector>
 #include <chrono>
+#include <fstream>
 
 #define timeUnitName " ms"
 #define timeUnit std::chrono::milliseconds
@@ -115,12 +116,8 @@ void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap ascending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!q.empty()) {
-            if(k[i].second != q.front().second) {
-                cout<<"Algorithms are not producing same results"<<endl;
-
-            }
             q.front().second->printRecipe();
-            k[i].second->printRecipe();
+            //k[i].second->printRecipe();
             i++;
             q.pop();
             cout<<"Would you like to view another recipe?"<<endl;
@@ -169,12 +166,8 @@ void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap descending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!s.empty()) {
-            if(k[i].second != s.top().second) {
-                cout<<"Algorithms are not producing same results"<<endl;
-
-            }
             s.top().second->printRecipe();
-            k[i].second->printRecipe();
+            //k[i].second->printRecipe();
             i++;
             s.pop();
             cout<<"Would you like to view another recipe?"<<endl;
@@ -221,7 +214,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
         }
         while (i < find.size()) {
             find[i]->printRecipe();
-            nameHeap[i]->printRecipe();
+            //nameHeap[i]->printRecipe();
             i++;
             if( i < find.size() ) {
                 cout<<"Would you like to view another recipe?"<<endl;
@@ -282,6 +275,7 @@ void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
         }
         while (i < find.size()) {
             find[i]->printRecipe();
+            //nameHeap[i]->printRecipe();
             i++;
             if( i < find.size() ) {
                 cout<<"Would you like to view another recipe?"<<endl;
