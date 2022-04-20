@@ -105,6 +105,14 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         {
             qHeap.push(Heap.getHeap()[i].second);
         }
+        if(userOption != -1) {
+            while(true) {
+                if(qHeap.front().first >= userOption) {
+                    break;
+                }
+                q.pop();
+            }
+        }
         end = system_clock::now();
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap ascending constructed in "<<ms.count()<<timeUnitName<<endl;
