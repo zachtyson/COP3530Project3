@@ -100,27 +100,24 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         auto ms = duration_cast<timeUnit>(end-start);
         cout<<"B-Tree ascending constructed in "<<ms.count()<<timeUnitName<<endl;
         start = system_clock::now();
-        queue<Recipe*> qHeap;
-        for(int i = 0; i < Heap.getSize(); i++)
-        {
-            qHeap.push(Heap.getHeap()[i].second);
-        }
+        vector<pair<float,Recipe*>> k;
+        k = Heap.extract();
+        int i = 0;
         if(userOption != -1) {
             while(true) {
-                if(qHeap.front().first >= userOption) {
+                if(k[i].first >= userOption) {
                     break;
                 }
-                q.pop();
+                i++;
             }
         }
         end = system_clock::now();
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap ascending constructed in "<<ms.count()<<timeUnitName<<endl;
-        
         while(!q.empty()) {
             q.front().second->printRecipe();
-            qHeap.front()->printRecipe();
-            qHeap.pop();
+            //k[i].second->printRecipe();
+            i++;
             q.pop();
             cout<<"Would you like to view another recipe?"<<endl;
             cout<<"1 = Another\t 2 = No";
@@ -134,14 +131,15 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         if(q.empty()) {
             cout<<"There are no more recipes to display, returning to main menu"<<endl;
         }
-    } else if(order == 2){
+    }
+    else if(order == 2){
         stack<pair<float, Recipe*>> s;
         BTree.revorder(s);
         time_point<system_clock> start, end;
         start = system_clock::now();
         if(userOption != -1) {
             while(true) {
-                if(s.top().first <= userOption) {
+                if(s.top().first < userOption) {
                     break;
                 }
                 s.pop();
@@ -151,23 +149,28 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         auto ms = duration_cast<timeUnit>(end-start);
         cout<<"B-Tree descending constructed in "<<ms.count()<<timeUnitName<<endl;
         start = system_clock::now();
-        stack<Recipe*> maxHeap;
-        //vector<Recipe*> vecRec = Heap.getHeap();
-        int size = Heap.getSize();
-        for(int i = 0; i < size; i++)
-        {
-            maxHeap.push(Heap.getHeap()[i].second);
-            Heap.remove();
-        }
-        maxHeap.top()->printRecipe();
-
+        vector<pair<float,Recipe*>> k;
+        k = Heap.extract();
+        int i = 0;
+//        if(userOption != -1) {
+//            while(true) {
+//                if(k[i].first < userOption) {
+//                    break;
+//                }
+//                i--;
+//            }
+//        }
         end = system_clock::now();
         ms = duration_cast<timeUnit>(end-start);
         cout<<"Heap descending constructed in "<<ms.count()<<timeUnitName<<endl;
         while(!s.empty()) {
             s.top().second->printRecipe();
+            if(k[i].second == nullptr) {
+                cout<<"PROBLEM";
+            }
+            k[i].second->printRecipe();
+            i++;
             s.pop();
-            cout<<endl;
             cout<<"Would you like to view another recipe?"<<endl;
             cout<<"1 = Another\t 2 = No";
             string viewAnother;
@@ -296,8 +299,8 @@ void constructHeap(vector<Recipe *>& recipes,minHeap<pair<float,Recipe*>>& HeapT
     start = system_clock::now();
     for(auto & recipe : recipes)
     {
-        HeapT.insertGen(make_pair(recipe->getNutrients()[0], recipe));
-        HeapC.insertGen(make_pair(recipe->getTime(), recipe));
+        HeapC.insertGen(make_pair(recipe->getNutrients()[0], recipe));
+        HeapT.insertGen(make_pair(recipe->getTime(), recipe));
         HeapN.insertGen(make_pair(recipe->getName(), recipe));
     }
     end = system_clock::now();

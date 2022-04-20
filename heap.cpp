@@ -28,6 +28,7 @@ class minHeap
     vector<type> getHeap();
     vector<type> makeMaxHeap(vector<type> Heap); //uses stack to turn minHeap into maxHeap
     void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes);
+    vector<type> extract();
 private:
     bool leaf(int position);
     int parent(int position);
@@ -36,6 +37,7 @@ private:
     void swap(int first, int second);
     void swapLG(int first, int second);
     void minHeapify(int position);
+    void minHeapify2(vector<type>& h, int i);
 };
 
 
@@ -145,7 +147,9 @@ void minHeap<type>::insertGen(type recipe) {
 
     while (Heap[lastNode] < Heap[parent(lastNode)])
     {
-        swap(lastNode, parent(lastNode));
+        type t = Heap[lastNode];
+        Heap[lastNode] = Heap[parent(lastNode)];
+        Heap[parent(lastNode)] = t;
         lastNode = parent(lastNode);
     }
 }
@@ -158,12 +162,16 @@ void minHeap<type>::minHeapify(int position) {
         {
             if(Heap[leftC(position)] < Heap[RightC(position)])
             {
-                swap(position, leftC(position));
+                type t = Heap[position];
+                Heap[position] = Heap[leftC(position)];
+                Heap[leftC(position)] = t;
                 minHeapify(leftC(position));
             }
             else
             {
-                swap(position, RightC(position));
+                type t = Heap[position];
+                Heap[position] = Heap[RightC(position)];
+                Heap[RightC(position)] = t;
                 minHeapify(RightC(position));
             }
         }
@@ -183,4 +191,42 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
 template <typename type>
 vector<type> minHeap<type>::getHeap() {
     return Heap;
+}
+
+template<typename type>
+vector<type> minHeap<type>::extract() {
+    vector<type> t;
+    vector<type> k = Heap;
+    while(!k.empty()) {
+        t.push_back(k[0]);
+        k[0] = k[k.size()-1];
+        minHeapify2(k,0);
+        k.pop_back();
+
+    }
+    return t;
+}
+
+template<typename type>
+void minHeap<type>::minHeapify2(vector<type>& h, int i) {
+    if(!leaf(i))
+    {
+        if(h[i] > h[leftC(i)] || h[i] > h[RightC(i)])
+        {
+            if(h[leftC(i)] < h[RightC(i)])
+            {
+                type temp = h[i];
+                h[i] = h[leftC(i)];
+                h[leftC(i)] = temp;
+                minHeapify2(h,leftC(i));
+            }
+            else
+            {
+                type temp = h[i];
+                h[i] = h[RightC(i)];
+                h[RightC(i)] = temp;
+                minHeapify2(h,RightC(i));
+            }
+        }
+    }
 }
