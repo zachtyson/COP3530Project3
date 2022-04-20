@@ -220,7 +220,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
         }
         while (i < find.size()) {
             find[i]->printRecipe();
-            nameHeap[i]->printRecipe();
+            //nameHeap[i]->printRecipe();
             i++;
             if( i < find.size() ) {
                 cout<<"Would you like to view another recipe?"<<endl;
