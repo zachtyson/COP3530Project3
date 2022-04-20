@@ -136,17 +136,11 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         auto ms = duration_cast<timeUnit>(end-start);
         cout<<"B-Tree descending constructed in "<<ms.count()<<timeUnitName<<endl;
         start = system_clock::now();
-        stack<pair<float, Recipe*>> maxHeap;
+        stack<Recipe*> maxHeap;
         for(int i = 0; i < Heap.size(); i++)
         {
-            maxHeap.push(Heap[i]);
+            maxHeap.push(Heap[i].second);
             Heap.remove();
-        }
-        minHeap<pair<float,Recipe*>> max;
-        while(!maxHeap.empty())
-        {
-            max.push_back(maxHeap.top());
-            maxHeap.pop();
         }
         end = system_clock::now();
         ms = duration_cast<timeUnit>(end-start);
