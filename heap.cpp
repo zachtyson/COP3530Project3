@@ -52,7 +52,7 @@ void minHeap<type>::swapLG(int first, int second) {
 
 
 template <typename type>
-void minHeap<type>::swap(int first, int second) {
+void minHeap<type>::swap(int first, int second) { //first value is a vector index and it is swapped with second value, a different vector index
     type temp;
     temp  = Heap[first];
     Heap[first] = Heap[second];
@@ -111,7 +111,7 @@ void minHeap<type>::printTop() {
 }
 
 template <typename type>
-vector<Recipe *> minHeap<type>::searchName(string name) {
+vector<Recipe *> minHeap<type>::searchName(string name) { //creates a vector of recipes that have the input string in their name
 
     vector<Recipe*> t;
     vector<type> k = Heap;
@@ -140,7 +140,7 @@ minHeap<type>::minHeap(int _cap) {
 }
 
 template<typename type>
-void minHeap<type>::insertGen(type recipe) {
+void minHeap<type>::insertGen(type recipe) { //inserts a recipe to the end of the heap vector and does swaps as necessary 
     if (size >= cap){
         return;
     }
@@ -161,7 +161,7 @@ void minHeap<type>::insertGen(type recipe) {
 }
 
 template<typename type>
-void minHeap<type>::minHeapify(int position) {
+void minHeap<type>::minHeapify(int position) { //swaps values around as necessary to make sure the heap is a corect heap (heapifys it)
     if(!leaf(position))
     {
         if(Heap[position] > Heap[leftC(position)] || Heap[position] > Heap[RightC(position)])
@@ -185,7 +185,7 @@ void minHeap<type>::minHeapify(int position) {
 }
 
 template<typename type>
-void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe *> &t) {
+void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe *> &t) { //similar to searchName, but instead searches a vector of ingredients inside each recipe's ingredient list
     vector<type> k = Heap;
     while(!k.empty()) {
         vector<string> ingredientsCurr = k[0].second->getIngredients();
@@ -207,7 +207,7 @@ vector<type>& minHeap<type>::getHeap() {
 }
 
 template<typename type>
-vector<type> minHeap<type>::extract() {
+vector<type> minHeap<type>::extract() { //extracts the heap vector to a vector of recipes in order
     vector<type> t;
     vector<type> k = Heap;
 
@@ -224,7 +224,7 @@ vector<type> minHeap<type>::extract() {
 }
 
 template<typename type>
-void minHeap<type>::minHeapify2(vector<type>& h, int i) {
+void minHeap<type>::minHeapify2(vector<type>& h, int i) { //same as heapify but takes input heap rather than the class heap
     int l = leftC(i);
     int r = RightC(i);
     int smallest = i;
