@@ -100,17 +100,10 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         auto ms = duration_cast<timeUnit>(end-start);
         cout<<"B-Tree ascending constructed in "<<ms.count()<<timeUnitName<<endl;
         start = system_clock::now();
-        queue<pair<float, Recipe*>> qHeap;
+        queue<Recipe*> qHeap;
         for(int i = 0; i < Heap.getSize(); i++)
         {
-            if(Heap.getHeap()[i].second < calTimeChoice)
-            {
-                continue;
-            }
-            else
-            {
-                qHeap.push(Heap.getHeap()[i].second);
-            }
+            qHeap.push(Heap.getHeap()[i].second);
         }
         end = system_clock::now();
         ms = duration_cast<timeUnit>(end-start);
@@ -118,7 +111,7 @@ void Option1or2(minHeap<pair<float,Recipe*>>& Heap, BTree<pair<float, Recipe*>>&
         
         while(!q.empty()) {
             q.front().second->printRecipe();
-            qHeap.front().second->printRecipe();
+            qHeap.front()->printRecipe();
             qHeap.pop();
             q.pop();
             cout<<"Would you like to view another recipe?"<<endl;
