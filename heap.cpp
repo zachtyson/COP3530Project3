@@ -189,10 +189,10 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
     vector<type> k = Heap;
     while(!k.empty()) {
         vector<string> ingredientsCurr = k[0].second->getIngredients();
-        if (std::includes(ingredientsCurr.begin(), ingredientsCurr.end(), ingredients.begin(),ingredients.end())) {
-            t.push_back(k[0].second);
+        if (std::includes(ingredientsCurr.begin(), ingredientsCurr.end(), ingredients.begin(),ingredients.end())) { //include is called to determine if each ingredient from the input vector of strings is also located in the ingredients of the recipe
+            t.push_back(k[0].second);  //if true the ingredient is pushed onto the input vector of recipes
         }
-        k[0] = k[k.size()-1];
+        k[0] = k[k.size()-1]; //the following lines are used to remove the root of the heap and minheapify it so that the input t vector of recipes can be created in alphabetical order
         k.pop_back();
 
         minHeapify2(k,0);
@@ -212,8 +212,8 @@ vector<type> minHeap<type>::extract() { //extracts the heap vector to a vector o
     vector<type> k = Heap;
 
     while(!k.empty()) {
-        t.push_back(k[0]);
-        k[0] = k[k.size()-1];
+        t.push_back(k[0]); 
+        k[0] = k[k.size()-1]; //removes the first node and calls minheapify to ensure that the root is always the min value
         k.pop_back();
 
         minHeapify2(k,0);
