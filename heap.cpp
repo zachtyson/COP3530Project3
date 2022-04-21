@@ -42,7 +42,7 @@ private:
 
 
 template <typename type>
-void minHeap<type>::swapLG(int first, int second) {
+void minHeap<type>::swapLG(int first, int second) { //not used in current edition of Cooking by the Book
     type temp;
     temp  = littleGuy[first];
     littleGuy[first] = littleGuy[second];
@@ -81,7 +81,7 @@ bool minHeap<type>::leaf(int position) {
     return false;
 }
 template <typename type>
-vector<type> minHeap<type>::makeMaxHeap(vector<type> Heap) {
+vector<type> minHeap<type>::makeMaxHeap(vector<type> Heap) { //turns the minHeap to a maxHeap with the use of a stack
     stack<type> maxHeap;
     for(auto & i : Heap)
     {
@@ -98,7 +98,7 @@ vector<type> minHeap<type>::makeMaxHeap(vector<type> Heap) {
 
 
 template <typename type>
-void minHeap<type>::remove() {
+void minHeap<type>::remove() { //removes first node by making the last node become the root and then heapifying the tree
     Heap[0] = Heap[size - 1];
     Heap.pop_back();
     minHeapify(0);
@@ -133,7 +133,7 @@ int minHeap<type>::getSize() const {
     return size;
 }
 template <typename type>
-minHeap<type>::minHeap(int _cap) {
+minHeap<type>::minHeap(int _cap) { //initializes heap to a set size, was mainly done for an array based representation but kept when we switched to a vector heap.
     cap = _cap;
     size = 0;
     sizeLG = 0;
@@ -147,7 +147,7 @@ void minHeap<type>::insertGen(type recipe) { //inserts a recipe to the end of th
     Heap.push_back(recipe);
     int lastNode = size;
     size++;
-    while (Heap[lastNode] < Heap[parent(lastNode)])
+    while (Heap[lastNode] < Heap[parent(lastNode)]) //swapping done here for newly inserted variables 
     {
         type t = Heap[lastNode];
         Heap[lastNode] = Heap[parent(lastNode)];
@@ -202,7 +202,7 @@ void minHeap<type>::searchIngredient(vector<string> &ingredients, vector<Recipe 
 }
 
 template <typename type>
-vector<type>& minHeap<type>::getHeap() {
+vector<type>& minHeap<type>::getHeap() { //function used to return the heap vector representation 
     return Heap;
 }
 
@@ -234,7 +234,7 @@ void minHeap<type>::minHeapify2(vector<type>& h, int i) { //same as heapify but 
     if((r < h.size()) && (h[r] < h[smallest])) {
         smallest = r;
     }
-    if(smallest != i) {
+    if(smallest != i) { //swapping is done here if conditionals are met
         type t = h[i];
         h[i] = h[smallest];
         h[smallest] = t;
