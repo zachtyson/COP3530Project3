@@ -106,10 +106,11 @@ void BTree<type>::NodeB::inorderTraversal(queue<type>& q) { //Inorder traversal 
 
 template<typename type>
 void BTree<type>::NodeB::insertToNode(type val) {
-    //Black magic
+    //Adds to node
     int middleIndex = keyIndex-1;
     if (isLeaf)
     {
+        //If node is leaf, compare values to all keys
         while (middleIndex >= 0 && nodeKeys[middleIndex] > val) {
             nodeKeys[middleIndex+1] = nodeKeys[middleIndex];
             middleIndex--;
@@ -117,12 +118,13 @@ void BTree<type>::NodeB::insertToNode(type val) {
         nodeKeys[middleIndex+1] = val;
         keyIndex = keyIndex+1;
     }
-    else {
+    else { //Not a leaf, compares value to all children and pushes to respective spot
         while (middleIndex >= 0 && nodeKeys[middleIndex] > val) {
             middleIndex--;
         }
         if (nodeChildren[middleIndex+1]->keyIndex == 3) {
-            balanceTree(middleIndex+1, nodeChildren[middleIndex+1]);
+            balanceTree(middleIndex+1, nodeChildren[middleIndex+1]); //Calls balance tree if a node is full
+            //Which splits the node into two nodes
             if (nodeKeys[middleIndex+1] < val) {
                 middleIndex++;
             }
@@ -173,17 +175,18 @@ void BTree<type>::NodeB::find(string val, vector<Recipe*>& r) {
 
 template<typename type>
 void BTree<type>::NodeB::RecipeSearch(vector<string>& ingredients, vector<Recipe *>& recipes) {
-    for (int i = 0; i < keyIndex; i++) {
+    for (int i = 0; i < keyIndex; i++) { //Iterates through entire tree inorder
         if (!isLeaf) {
-            nodeChildren[i]->RecipeSearch(ingredients, recipes);
+            nodeChildren[i]->RecipeSearch(ingredients, recipes); //If it has a child there, search at that value
         }
-        vector<string> ingredientsCurr = nodeKeys[i].second->getIngredients();
+        vector<string> ingredientsCurr = nodeKeys[i].second->getIngredients(); //Retrieve the ingredients vector
         if (std::includes(ingredientsCurr.begin(), ingredientsCurr.end(), ingredients.begin(), ingredients.end())) {
-            recipes.push_back(nodeKeys[i].second);
+            recipes.push_back(nodeKeys[i].second); //Compares the ingredient vector to the ingredient search vector
+            //If search vector is subset of ingredient, return true, and push the value into vector recipes
         }
     }
     if (!isLeaf) {
-        nodeChildren[keyIndex]->RecipeSearch(ingredients, recipes);
+        nodeChildren[keyIndex]->RecipeSearch(ingredients, recipes); //Calls search for far right child as long as it exists
     }
 }
 
@@ -195,6 +198,7 @@ void BTree<type>::NodeB::callDeleteNodeB() {
             delete nodeChildren[i];
         }
     }
+    //Called for the program exiting, deletes every node allocated on the heap
 }
 
 template<typename type>
@@ -262,13 +266,14 @@ int BTree<type>::getTotalKeys() {
 template<typename type>
 void BTree<type>::RecipeSearch(vector<string>& ingredients, vector<Recipe *>& recipes) {
     if(root != nullptr) {
-        root->RecipeSearch(ingredients,recipes);
+        root->RecipeSearch(ingredients,recipes); //Function calls search for the node, can't be called
+        //Since the node class is private
     }
 }
 
 template<typename type>
 void BTree<type>::exit() {
-    root->callDeleteNodeB();
+    root->callDeleteNodeB(); //Deletes entire tree
     delete root;
 }
 
