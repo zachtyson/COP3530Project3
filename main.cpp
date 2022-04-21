@@ -20,7 +20,7 @@ void exitProgram(vector<Recipe *>& recipes, BTree<pair<double, Recipe*>>& BTreeT
     }
 }
 
-void parseData(vector<Recipe *>& recipes, string fileName) {
+void parseData(vector<Recipe *>& recipes, string fileName) { //parses the csv data base with over 200k entries to get each recipe into a recipe class vector
     ifstream input(fileName, ios::in);
     string curr;
     time_point<system_clock> start, end;
@@ -34,7 +34,7 @@ void parseData(vector<Recipe *>& recipes, string fileName) {
     cout<<"Data set parsed in : "<<ms.count()<<timeUnitName<<endl;
 }
 
-void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>>& BTree, string calTimeChoice) {
+void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>>& BTree, string calTimeChoice) { //function to sort time or calories in either ascending or descending and to compare the time it took the B-Tree and Heap to do so
     int order;
     string userInput;
     double userOption;
@@ -185,7 +185,7 @@ void Option1or2(minHeap<pair<double,Recipe*>>& Heap, BTree<pair<double, Recipe*>
     }
 }
 
-void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& HeapN) {
+void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& HeapN) { //function for user to input a food name they would like a recipe for, and to compare time it took the B-Tree and heap to search for said food name
     string searchKey;
     cout<<"Enter the name of the food you are trying to search"<<endl;
     cin>>searchKey;
@@ -235,7 +235,7 @@ void Option3(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     }
 }
 
-void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& HeapN) {
+void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& HeapN) { //function for user to insert multiple ingredients and to compare how long it took the B-Tree and Heap to search for input ingredients
     string searchKey;
     cout<<"Enter the ingredients you wish to search for, and type -1 to indicate you are done"<<endl;
     vector<string> ingredientsSearch;
@@ -295,7 +295,7 @@ void Option4(BTree<pair<string, Recipe*>>& BTree,minHeap<pair<string,Recipe*>>& 
     }
 }
 
-void constructHeap(vector<Recipe *>& recipes,minHeap<pair<double,Recipe*>>& HeapT, minHeap<pair<double,Recipe*>>& HeapC,minHeap<pair<string,Recipe*>>& HeapN) {
+void constructHeap(vector<Recipe *>& recipes,minHeap<pair<double,Recipe*>>& HeapT, minHeap<pair<double,Recipe*>>& HeapC,minHeap<pair<string,Recipe*>>& HeapN) {  //constructs the 3 heaps sorted by time, calories, and name, also records time taken to construct all 3
     time_point<system_clock> start, end;
     start = system_clock::now();
     for(auto & recipe : recipes)
@@ -309,7 +309,7 @@ void constructHeap(vector<Recipe *>& recipes,minHeap<pair<double,Recipe*>>& Heap
     cout<<"Heap Constructed in: "<<ms.count()<<timeUnitName<<endl;
 }
 
-void constructBTree(vector<Recipe *>& recipes,BTree<pair<double, Recipe*>>& BTreeT,BTree<pair<double, Recipe*>>& BTreeC, BTree<pair<string, Recipe*>>& BTreeN) {
+void constructBTree(vector<Recipe *>& recipes,BTree<pair<double, Recipe*>>& BTreeT,BTree<pair<double, Recipe*>>& BTreeC, BTree<pair<string, Recipe*>>& BTreeN) { //constructs the 3 B-Trees sorted by time, calories, and name, also records time taken to construct all 3 
     time_point<system_clock> start, end;
     start = system_clock::now();
     for(auto & recipe : recipes) {

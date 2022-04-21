@@ -12,32 +12,32 @@ template <typename type>
 class minHeap
 {
     private:
-    vector<type> Heap;
-    vector<type> littleGuy; //sub heap that contains an input string for searching recipes based on name within the primary minHeap
-    int size = 0;
-    int sizeLG = 0;
-    int cap;
+    vector<type> Heap; //vector based heap representation
+    vector<type> littleGuy; //sub heap that contains an input string for searching recipes based on name within the primary minHeap (not in use atm)
+    int size = 0; //current size of the heap
+    int sizeLG = 0; //current size of the subHeap (not in use atm)
+    int cap; //max size of the heap, was initialy intended to be used for an array based heap representation, but now is used to ensure that only the total number of recipes in the csv are input
 
     public:
     minHeap(int cap); //creates a minHeap vector with an initial size of 0 and a max size of all the recipes in the data base
-    int getSize() const;
+    int getSize() const; //returns the size of the heap vector
     vector<Recipe*> searchName(string name); // Added signature for search by name to heap
     void insertGen(type recipe);// insert function for minheap sorted alphabetically
-    void printTop();
-    void remove();
-    vector<type>& getHeap();
+    void printTop(); //prints the first recipe in the heap vector
+    void remove(); //removes the first recipe and heapifys the heap
+    vector<type>& getHeap(); //returns heap vector
     vector<type> makeMaxHeap(vector<type> Heap); //uses stack to turn minHeap into maxHeap
-    void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes);
-    vector<type> extract();
+    void searchIngredient(vector<string>& ingredients, vector<Recipe *>& recipes); //input a heap vector and vector of ingredients to get a sorted vector of recipes that contains all the ingredients input
+    vector<type> extract(); //extracts the minheap to a vector in ascending order
 private:
-    bool leaf(int position);
-    int parent(int position);
-    int leftC(int position);
-    int RightC(int position);
-    void swap(int first, int second);
-    void swapLG(int first, int second);
-    void minHeapify(int position);
-    void minHeapify2(vector<type>& h, int i);
+    bool leaf(int position); //determines if the input index value is a leaf or not
+    int parent(int position); //returns the parent of input index value
+    int leftC(int position); //returns the left child of input index value
+    int RightC(int position); //returns the right child of input index value
+    void swap(int first, int second); //swaps the first index with the second
+    void swapLG(int first, int second); //used to swap the sub minHeap but not in use atm
+    void minHeapify(int position); //used to minheapify the heap so that the root is always the smallest value and all its children are greater than it
+    void minHeapify2(vector<type>& h, int i); //same minheapify but now with an input heap rather than the class heap vector 
 };
 
 
